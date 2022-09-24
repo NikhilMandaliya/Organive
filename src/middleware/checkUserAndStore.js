@@ -9,33 +9,32 @@ const checkUserAndStore = async (req, res, next) => {
         if (cookie == undefined) {
             return res.redirect('/store');
         }
-        if (token == undefined) {
-            req.user = null;
-            return next();
-        }
+
         // if both cookies exist
-        let decoded;
-        jwt.verify(token, process.env.SECRET_KEY, function (err, decodedToken) {
-            if (err) {
-                console.log("ERROR: " + err.message);
-                req.user = null;
-                return res.status(201).render("account", {
-                    title: 'My account',
-                    user: null,
-                    cartLength: 0,
-                    alert: [{ msg: 'Invalid token! Please login again.' }]
-                });
-            } else {
-                decoded = decodedToken;
-            }
-        });
+        if (token) {
+            var decoded;
+            jwt.verify(token, process.env.SECRET_KEY, function (err, decodedToken) {
+                if (err) {
+                    console.log("ERROR: " + err.message);
+                    req.user = null;
+                    return res.status(201).render("account", {
+                        title: 'My account',
+                        user: null,
+                        cartLength: 0,
+                        alert: [{ msg: 'Invalid token! Please login again.' }]
+                    });
+                } else {
+                    decoded = decodedToken._id;
+                }
+            });
+        }
 
         const [user, vendor] = await Promise.all([
-            User.findById(decoded._id),
+            User.findById(decoded),
             Vendor.findById(cookie)
         ])
 
-        if (!user) {
+        if (token && !user) {
             return res.status(201).render("account", {
                 title: 'My account',
                 user: null,
@@ -44,7 +43,7 @@ const checkUserAndStore = async (req, res, next) => {
             });
         }
         // if blocked
-        if (user.blocked == true) {
+        if (token && user.blocked == true) {
             return res.status(201).render("account", {
                 title: 'My account',
                 user: null,
@@ -61,7 +60,6 @@ const checkUserAndStore = async (req, res, next) => {
         req.store = cookie;
         req.storename = vendor.storename;
         req.deliverycharge = vendor.deliverycharge;
-
         next();
     } catch (error) {
         console.log(error);
