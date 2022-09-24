@@ -90,8 +90,8 @@ app.use('/vendor/*', function (req, res, next) {
 app.use('/uploads/*', (req, res) => { res.end() })
 
 // Development logging
-const morgan = require('morgan');
 if (process.env.NODE_ENV === 'development') {
+    const morgan = require('morgan');
     app.use(morgan('dev'));
 }
 
