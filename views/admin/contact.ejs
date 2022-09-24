@@ -1,0 +1,145 @@
+<%-include('../_layouts/admin_header')-%>
+
+<div class="col-sm-12" style="margin-top: 2%;">
+   <!-- errors -->
+   <div class="w-75 p-3" style="margin: auto;">
+    <%- messages('messages', locals) %>
+    </div>
+    <!-- errors -->
+    <% if(typeof alert != 'undefined') { %>
+        <div class="w-75 p-3" style="margin: auto;">
+            <% alert.forEach(function(error) { %>
+                <div class="alert alert-danger alert-dismissible show" role="alert">
+                    <%= error.msg %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<div class="col-sm-12" style="margin-top: 2%;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-wrapper collapse in" aria-expanded="true">
+                    <div class="panel-body">
+                        <form onsubmit="validateContact()" method="POST" action="/admin/contact" id="contactForm">
+                            <div class="form-body">
+                                <h2 class="page-tittle"> <%= title %> </h2>
+                                <hr>
+                                <h3 class="box-title">Info</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Phone No</label>
+                                            <input type="text" id="contactPhone" class="form-control" name="phone" placeholder="Phone no" value="<%= contact.phone %>">
+                                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                <span class="cl12" id="contactErrPhone"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Email</label>
+                                                <input type="text" id="contactEmail" class="form-control" name="email" placeholder="Email" value="<%= contact.email %>">
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="contactErrEmail"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                               
+                                    <div class="row">
+                                        <div class="col-md-12 ">
+                                            <div class="form-group">
+                                                <label>Address</label>
+                                                <input type="text" id="contactAddress" class="form-control" name="address" placeholder="Address" value="<%= contact.address %>">
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="contactErrAddress"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Content</label>
+                                        <textarea name="content" class="form-control" id="ta" cols="30" rows="10" placeholder="content"><%= content %></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const formC = document.getElementById('contactForm');
+    const phoneC = document.getElementById('contactPhone');
+    const emailC = document.getElementById('contactEmail');
+    const addressC = document.getElementById('contactAddress');
+
+    // loginform
+    formC.addEventListener('submit', (e) => {
+        e.preventDefault();
+    })
+    function validateContact(){
+        let returnVal = true;
+
+        const phoneValue = phoneC.value.trim();
+        const emailValue = emailC.value.trim();
+        const addressValue = addressC.value.trim();
+
+        if (phoneValue == '') {
+            setError('contactErrPhone','Please enter phone number.')
+            returnVal = false;
+        } else {
+            removeError('contactErrPhone')
+        }
+
+        if (emailValue == '') {
+            setError('contactErrEmail','Please enter email.')
+            returnVal = false;
+        } else if (!validateEmail(emailValue)) {
+            setError('contactErrEmail','Please enter valid email.')
+            returnVal = false;
+        } else {
+            removeError('contactErrEmail')
+        }
+
+        if (addressValue == '') {
+            setError('contactErrAddress','Please enter address.')
+            returnVal = false;
+        } else {
+            removeError('contactErrAddress')
+        }
+
+        // return false;
+        if (returnVal) {
+            formC.submit();
+        }
+    }
+
+    function setError(id, error) {
+        // set error msg
+        const element = document.getElementById(id);
+        element.innerHTML = '* ' + error;
+    }
+    function removeError(id) {
+        // remove error msg
+        const element = document.getElementById(id);
+        element.innerHTML = '';
+    }
+    
+    function validateEmail(email){
+        return email.match(
+            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    }
+</script>
+
+<%-include('../_layouts/admin_footer')-%>

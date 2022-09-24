@@ -1,0 +1,113 @@
+<%- include('_layouts/header') %>
+	
+	<!-- Title page -->
+	<section class="how-overlay2 bg-img1" style="background-image: url(/images/bg-07.jpg);">
+		<div class="container">
+			<div class="txt-center p-t-160 p-b-165">
+				<h2 class="txt-l-101 cl0 txt-center p-b-14 respon1">
+					My Account
+				</h2>
+
+				<span class="txt-m-201 cl0 flex-c-m flex-w">
+					<a href="/" class="txt-m-201 cl0 hov-cl10 trans-04 m-r-6">
+						Home
+					</a>
+
+					<span>
+						/ My Account
+					</span>
+				</span>
+			</div>
+		</div>
+	</section>
+
+	<!-- content page -->
+	<div class="bg0 p-t-95 p-b-100">
+
+	<!-- errors -->
+	<% if(typeof alert != 'undefined') { %>
+		<div class="w-75 p-3" style="margin: auto;">
+			<% alert.forEach(function(error) { %>
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<%= error.msg %>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+			<% }) %>
+		</div>
+	<% } %>
+
+		<div class="container">
+			<form method="POST" onsubmit="validateFP()" action="/forgot_pass" id="fpform">
+				<p class="txt-s-101 cl9 p-b-17">
+					Lost your password? Please enter your email address. You will receive a new password via email.
+				</p>
+
+				<div class="p-b-20">
+					<div class="txt-s-101 cl9 p-b-14">
+						Email
+					</div>
+
+					<input class="txt-s-101 cl3 size-a-41 bo-all-1 bocl15 p-rl-15 focus1" type="text" name="email" id="fpEmail">
+					<div class="txt-s-101 cl6 p-b-10">
+						<span class="cl12" id="fpErrEmail"></span>
+					</div>
+				</div>
+
+
+				<div class="flex-w">
+					<button type="submit" class="flex-c-m txt-s-105 cl0 bg10 size-a-40 hov-btn2 trans-04 p-rl-10 m-r-18">
+						reset password
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script>
+		const formFP = document.getElementById('fpform');
+		const emailFP = document.getElementById('fpEmail');
+
+		// loginform
+		formFP.addEventListener('submit', (e) => {
+			e.preventDefault();
+		})
+		function validateFP(){
+			let returnVal = true;
+
+			const emailValue = emailFP.value.trim();
+
+			if (emailValue == '') {
+				setError('fpErrEmail','Please enter email.')
+				returnVal = false;
+			} else if (!validateEmail(emailValue)) {
+				setError('fpErrEmail','Please enter valid email.')
+				returnVal = false;
+			} else {
+				console.log(emailValue);
+				removeError('fpErrEmail')
+			}
+			
+			if (returnVal) {
+				formFP.submit();
+			}
+		}
+
+		function setError(id, error) {
+			// set error msg
+			const element = document.getElementById(id);
+			element.innerHTML = '* ' + error;
+		}
+		function removeError(id) {
+			// remove error msg
+			const element = document.getElementById(id);
+			element.innerHTML = '';
+		}
+		
+		function validateEmail(email){
+			return email.match(
+				/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+			);
+		}
+	</script>
+<%- include('_layouts/footer') %>

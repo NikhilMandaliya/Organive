@@ -1,0 +1,84 @@
+<%- include('../_layouts/admin_header') %>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="white-box">
+                    <h4 class="box-title">Product Details</h4>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="white-box text-center">
+                                <img src="<%= product.image %>" id="product-image" class="img-responsive" onerror="this.onerror=null; this.src='/images/no_image_available_3.jpg';"/>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-6">
+                            <h4 class="box-title m-t-0"><%= product.productname %></h4>
+                            <h2 class="pro-price m-b-0 m-t-20">&#8377; <%= product.totalprice %>
+                                <!-- <span class="old-price">&#8377; 100</span> -->
+                                <!-- <span class="text-danger">28% off</span> -->
+                            </h2>
+                            <hr>
+                            <p><%= product.description %></p>
+                            <hr>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <h3 class="box-title m-t-40">General Info</h3>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td width="390">Title</td>
+                                            <td> <%= product.title %> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Category</td>
+                                            <td> <%= cat %> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Subcategory</td>
+                                            <td> <%= subcat %> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Store</td>
+                                            <td> <%= store %> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Company</td>
+                                            <td> <%= product.company %> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Type</td>
+                                            <td> <%= product.type %> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Weight</td>
+                                            <td> <%= product.productweight %> <%= unit %></td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="white-box">
+                    <form method="POST" action="/admin/product/edit/<%= product.id %>">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="checkbox checkbox-primary" style="padding-left: 7px; margin-bottom: 20px;">
+                                    <input id="checkbox33" type="checkbox" name="featured" <%= product.featured == true ? 'checked' : '' %>>
+                                    <label for="checkbox33">&nbsp; Featured ?</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a href="/admin/vendor/products/<%= product.vendor %>" class="btn btn-danger" style="color: white;">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<%- include('../_layouts/admin_footer') %>

@@ -1,0 +1,299 @@
+<%- include('_layouts/header') %>
+
+	<!-- Title page -->
+	<section class="how-overlay2 bg-img1" style="background-image: url(/images/bg-07.jpg);">
+		<div class="container">
+			<div class="txt-center p-t-160 p-b-165">
+				<h2 class="txt-l-101 cl0 txt-center p-b-14 respon1">
+					My Account
+				</h2>
+
+				<span class="txt-m-201 cl0 flex-c-m flex-w">
+					<a href="/" class="txt-m-201 cl0 hov-cl10 trans-04 m-r-6">
+						Home
+					</a>
+
+					<span>
+						/ My Account
+					</span>
+				</span>
+			</div>
+		</div>
+	</section>
+
+	<!-- errors -->
+	<% if(typeof alert != 'undefined') { %>
+	<div class="w-75 p-3" style="margin: auto;">
+		<% alert.forEach(function(error) { %>
+			<div class="alert alert-info alert-dismissible fade show" role="alert">
+				<%= error.msg %>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+		<% }) %>
+	</div>
+	<% } %>
+	<div class="w-75 p-3" style="margin: auto;">
+		<%- messages('messages', locals) %>
+	</div>
+
+	<!-- content page -->
+	<div class="bg0 p-t-95 p-b-50">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 p-b-50">
+					<div class="p-r-15 p-rl-0-lg">
+						<h4 class="txt-m-124 cl3 p-b-28">
+							Login
+						</h4>
+						<form action="/login" onsubmit="return validateLogin()" method="POST" class="how-bor3 p-rl-30 p-tb-32" id="loginForm">
+							<div class="p-b-24">
+								<div class="txt-s-101 cl6 p-b-10">
+									Email address <span class="cl12">*</span>
+								</div>
+								
+								<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-15 focus1" type="text" name="email" id="loginEmail">
+								<div class="txt-s-101 cl6 p-b-10">
+									<span class="cl12" id="loginErrEmail"></span>
+								</div>
+							</div>
+							
+							<div class="p-b-24">
+								<div class="txt-s-101 cl6 p-b-10">
+									Password <span class="cl12">*</span>
+								</div>
+								
+								<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-15 focus1" type="password" name="password" id="loginPass">
+								<div class="txt-s-101 cl6 p-b-10">
+									<span class="cl12" id="loginErrPass"></span>
+								</div>
+							</div>
+
+							<div class="flex-w flex-m p-t-15 p-b-10">
+								<button type="submit" class="flex-c-m txt-s-105 cl0 bg10 size-a-39 hov-btn2 trans-04 p-rl-10 m-r-18">
+									Login
+								</button>
+
+								<a href="/forgot_pass" class="txt-s-101 cl9 hov-cl10 trans-04">
+									Lost your password?
+								</a>
+							</div>
+							<div class="row">
+								<div class="col-md-3">
+									<a class="btn btn-outline-dark" href="/google" role="button" style="text-transform:none">
+									<img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+									Login with Google
+									</a>
+								</div>
+							</div>
+							
+							<!-- Minified CSS and JS -->
+							<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+								integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+							<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+								integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+							</script>
+						</form>
+					</div>
+				</div>
+
+				<div class="col-md-6 p-b-50">
+					<div class="p-l-15 p-rl-0-lg">
+						<h4 class="txt-m-124 cl3 p-b-28">
+							Register
+						</h4>
+
+						<form method="POST" action="/register" onsubmit="return validateReg()" class="how-bor3 p-rl-30 p-t-32 p-b-66" id="regForm">
+							<div class="p-b-24">
+								<div class="txt-s-101 cl6 p-b-10">
+									First Name <span class="cl12">*</span>
+								</div>
+
+								<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-15 focus1" type="text" name="firstname" id="regFname">
+								<div class="txt-s-101 cl6 p-b-10">
+									<span class="cl12" id="regErrFname"></span>
+								</div>
+							</div>
+							<div class="p-b-24">
+								<div class="txt-s-101 cl6 p-b-10">
+									Last Name <span class="cl12">*</span>
+								</div>
+
+								<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-15 focus1" type="text" name="lastname" id="regLname">
+								<div class="txt-s-101 cl6 p-b-10">
+									<span class="cl12" id="regErrLname"></span>
+								</div>
+							</div>
+							<div class="p-b-24">
+								<div class="txt-s-101 cl6 p-b-10">
+									Email address <span class="cl12">*</span>
+								</div>
+
+								<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-15 focus1" type="text" name="email" id="regEmail">
+								<div class="txt-s-101 cl6 p-b-10">
+									<span class="cl12" id="regErrEmail"></span>
+								</div>
+							</div>
+
+							<div class="p-b-24">
+								<div class="txt-s-101 cl6 p-b-10">
+									Password <span class="cl12">*</span>
+								</div>
+
+								<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-15 focus1" type="password" name="password" id="regPass">
+								<div class="txt-s-101 cl6 p-b-10">
+									<span class="cl12" id="regErrPass"></span>
+								</div>
+							</div>
+
+							<div class="p-b-24">
+								<div class="txt-s-101 cl6 p-b-10">
+									Phone Number <span class="cl12">*</span>
+								</div>
+
+								<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-15 focus1" type="text" name="phone"  id="regNum" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+								<div class="txt-s-101 cl6 p-b-10">
+									<span class="cl12" id="regErrNum"></span>
+								</div>
+							</div>
+
+							<div class="flex-w flex-m p-t-15">
+								<button type="submit" class="flex-c-m txt-s-105 cl0 bg10 size-a-39 hov-btn2 trans-04 p-rl-10 m-r-18">
+									Register
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		const formLog = document.getElementById('loginForm');
+		const emailLog = document.getElementById('loginEmail');
+		const passwordLog = document.getElementById('loginPass');
+
+		// loginform
+		formLog.addEventListener('submit', (e) => {
+			e.preventDefault();
+		})
+		function validateLogin(){
+			let returnVal = true;
+
+			const emailValue = emailLog.value.trim();
+			const passwordValue = passwordLog.value.trim();
+
+			if (emailValue == '') {
+				setError('loginErrEmail','Please enter email.')
+				returnVal = false;
+			} else if (!validateEmail(emailValue)) {
+				setError('loginErrEmail','Please enter valid email.')
+				returnVal = false;
+			} else {
+				removeError('loginErrEmail')
+			}
+			
+			if (passwordValue == '') {
+				setError('loginErrPass','Please enter password.')
+				returnVal = false;
+			} else if (passwordValue.length < 6) {
+				setError('loginErrPass','Password should atleast 6 characters long.')
+				returnVal = false;
+			} else {
+				removeError('loginErrPass')
+			}
+			// return returnVal;
+			if (returnVal) {
+				formLog.submit();
+			}
+		}
+
+		const formReg = document.getElementById('regForm');
+		const fnameReg = document.getElementById('regFname');
+		const lnameReg = document.getElementById('regLname');
+		const emailReg = document.getElementById('regEmail');
+		const passwordReg = document.getElementById('regPass');
+		const phoneReg = document.getElementById('regNum');
+
+		// reg form
+		formReg.addEventListener('submit', (e) => {
+			e.preventDefault();
+		})
+		function validateReg(){
+			let returnVal = true;
+
+			const fnameValue = fnameReg.value.trim();
+			const lnameValue = lnameReg.value.trim();
+			const emailValue = emailReg.value.trim();
+			const passwordValue = passwordReg.value.trim();
+			const phoneValue = phoneReg.value.trim();
+			
+			if (fnameValue == '') {
+				setError('regErrFname', 'Please enter first name.')
+				returnVal = false;
+			} else {
+				removeError('regErrFname')
+			}
+
+			if (lnameValue == '') {
+				setError('regErrLname', 'Please enter last name.')
+				returnVal = false;
+			} else {
+				removeError('regErrLname')
+			}
+
+			if (emailValue == '') {
+				setError('regErrEmail','Please enter email.')
+				returnVal = false;
+			} else if (!validateEmail(emailValue)) {
+				setError('regErrEmail','Please enter valid email.')
+				returnVal = false;
+			} else {
+				removeError('regErrEmail')
+			}
+			
+			if (passwordValue == '') {
+				setError('regErrPass','Please enter password.')
+				returnVal = false;
+			} else if (passwordValue.length < 6) {
+				setError('regErrPass','Password should atleast 6 characters long.')
+				returnVal = false;
+			} else {
+				removeError('regErrPass')
+			}
+
+			if (phoneValue == '') {
+				setError('regErrNum','Please enter phone number.')
+				returnVal = false;
+			} else if (phoneValue.length < 10 || phoneValue.length > 10) {
+				setError('regErrNum','Please Enter 10 Digit Contact number.')
+				returnVal = false;
+			} else {
+				removeError('regErrNum')
+			}
+			
+			if (returnVal) {
+				formReg.submit();
+			}
+		}
+
+		function setError(id, error) {
+			// set error msg
+			const element = document.getElementById(id);
+			element.innerHTML = '* ' + error;
+		}
+		function removeError(id) {
+			// remove error msg
+			const element = document.getElementById(id);
+			element.innerHTML = '';
+		}
+		
+		function validateEmail(email){
+			return email.match(
+				/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+			);
+		}
+	</script>
+<%- include('_layouts/footer') %>

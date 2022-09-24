@@ -1,0 +1,410 @@
+<%- include('_layouts/header') %>
+
+	<!-- Title page -->
+	<section class="how-overlay2 bg-img1" style="background-image: url(/images/bg-07.jpg);">
+		<div class="container">
+			<div class="txt-center p-t-160 p-b-165">
+				<h2 class="txt-l-101 cl0 txt-center p-b-14 respon1">
+					My Account
+				</h2>
+
+				<span class="txt-m-201 cl0 flex-c-m flex-w">
+					<a href="/" class="txt-m-201 cl0 hov-cl10 trans-04 m-r-6">
+						Home
+					</a>
+
+					<span>
+						/ My Account
+					</span>
+				</span>
+			</div>
+		</div>
+	</section>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBP19Ko2NR29ggZ2MRH9ayjd46vsexz_e0"></script>
+    <script>
+        var searchInput = 'caLandmark';
+
+        $(document).ready(function () {
+            var autocomplete;
+            autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+                types: ['geocode'],
+                componentRestrictions: {
+                    country: "in"
+                }
+            });
+            
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var near_place = autocomplete.getPlace();
+                document.getElementById('loc_lat').value = near_place.geometry.location.lat();
+                document.getElementById('loc_long').value = near_place.geometry.location.lng();
+            });
+        });
+    </script>
+
+	<!-- content page -->
+	<div class="bg0 p-t-95 p-b-70">
+		<div class="container">
+			<!-- errors -->
+			<% if(typeof alert != 'undefined') { %>
+				<div class="w-75 p-3" style="margin: auto;">
+					<% alert.forEach(function(error) { %>
+						<div class="alert alert-warning alert-dismissible fade show" role="alert">
+							<%= error.msg %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+					<% }) %>
+				</div>
+			<% } %>
+			<div class="w-75 p-3" style="margin: auto;">
+				<%- messages('messages', locals) %>
+			</div>
+			<!-- Tab03 -->
+			<div class="tab03">
+				<div class="row">
+					<div class="col-md-3 col-lg-2 p-b-30">
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" role="tablist">
+							<li class="nav-item p-b-16">
+								<a class="nav-link active" data-toggle="tab" href="#dashboard" role="tab">Dashboard</a>
+							</li>
+
+							<li class="nav-item p-b-16">
+								<a class="nav-link" data-toggle="tab" href="#orders" role="tab">Orders</a>
+							</li>
+
+							<li class="nav-item p-b-16">
+								<a class="nav-link" data-toggle="tab" href="#addresses" role="tab">Addresses</a>
+							</li>
+
+							<li class="nav-item p-b-16">
+								<a class="nav-link" data-toggle="tab" href="#change-password" role="tab">Change password</a>
+							</li>
+
+							<li class="nav-item p-b-16">
+								<a class="nav-link" href="/logout">Logout</a>
+							</li>
+						</ul>
+					</div>
+						
+					<div class="col-md-9 col-lg-10 p-b-30">
+						<!-- Tab panes -->
+						<div class="tab-content p-l-70 p-l-0-lg">
+							<!-- - -->
+							<div class="tab-pane fade show active" id="dashboard" role="tabpanel">
+								<p class="txt-s-101 cl6 p-b-18">
+									Hello <span class="txt-s-108"><%= user.firstname %> </span> (not <span class="txt-s-108"><%= user.firstname %></span>? <a href="/logout" class="txt-s-101 cl6 hov-cl10">Logout</a>)
+								</p>
+
+								<p>
+									From your account dashboard you can view your recent orders, manage your address and edit your password and account details.
+								</p>
+							</div>
+
+							<div class="tab-pane fade" id="orders" role="tabpanel">
+								<% if (orders.length < 1) { %>
+									<div class="bo-all-1 bocl15 flex-w flex-sb-m p-rl-30 p-tb-10 p-rl-15-ssm">
+										<div class="flex-t p-tb-8 m-r-30">
+											<img class="m-t-6 m-r-10" src="images/icons/icon-list.png" alt="IMG">
+											<span class="size-w-53 txt-s-101 cl6">
+												No order has been made yet.
+											</span>
+										</div>
+										<a href="/products/all" class="flex-c-m txt-s-105 cl0 bg10 size-a-42 hov-btn2 trans-04 p-rl-10 m-tb-8">
+											go shop
+										</a>
+									</div>
+								<% } else { %>
+									<div class="bo-all-1 bocl15 flex-w flex-sb-m p-rl-30 p-tb-10 p-rl-15-ssm">
+										<div class="flex-t p-tb-8 m-r-30">
+											<span class="size-w-53 txt-s-101 cl6">
+												<h3 class="page-title">Orders</h3>
+											</span>
+										</div>
+	
+										<a href="/products/all" class="flex-c-m txt-s-105 cl0 bg10 size-a-42 hov-btn2 trans-04 p-rl-10 m-tb-8">
+											Continue shopping
+										</a>
+									</div>
+									<div class="table-responsive">
+										<table id="myTable" class="table table-striped color-table primary-table">
+											<thead>
+												<tr>
+													<th>Sr No.</th>
+													<th>Order Date</th>
+													<th>Status</th>
+													<th>Total</th>
+													<th>Pay With</th>
+													<th>Detail</th>
+													<th>Cancel Order</th>
+												</tr>
+											</thead>
+											<tbody>
+												<% for( let i = 0; i < orders.length; i++ ) { %>
+													<tr>
+														<td style="vertical-align: middle;"><%= i+1 %></td>
+														<td style="vertical-align: middle;"><%= orders[i].date %></td>
+														<td style="vertical-align: middle;">
+															<% if (orders[i].status == 'Pending' || orders[i].status == 'Processing') { %>
+																<div class="text-warning"><%= orders[i].status %></div>
+															<% } else if (orders[i].status == 'Accepted' || orders[i].status == 'Completed') { %>
+																<div class="text-success"><%= orders[i].status %></div>
+															<% } else if (orders[i].status == 'Rejected' || orders[i].status == 'Cancelled') { %>
+																<div class="text-danger"><%= orders[i].status %></div>
+															<% } %>
+														</td style="vertical-align: middle;">
+														<td style="vertical-align: middle;">&#8377; <%= orders[i].totalamount %></td>
+														<td style="vertical-align: middle;"><%= orders[i].paymentmode %></td>
+														<td style="vertical-align: middle;"><a href="/order/detail/<%= orders[i].id %>"><i class="fa fa-info" style="color: black;"></i></a></td>
+														<td style="vertical-align: middle;">
+															<% if (orders[i].status == 'Cancelled' || orders[i].status == 'Rejected') { %>
+																<div class="text-danger">Order Cancelled</div>
+															<% } else if (orders[i].status == 'Completed') { %>
+																<div class="text-success">Order Completed</div>
+															<% } else { %>
+																<a href="/order/cancel/<%= orders[i].id %>" class="btn btn-danger" onclick="return confirm('Are you sure want to cancel the order?')">Cancel</a>
+															<% } %>
+														</td>
+													</tr>
+												<% } %>
+											</tbody>
+										</table>
+									</div>
+								<% } %>
+							</div>
+							<!-- - -->
+							<div class="tab-pane fade" id="addresses" role="tabpanel">
+								<form onsubmit="validateCa()" action="/address" method="POST" id="caform">
+									<div class="row">
+										<div class="col-sm-12 p-b-23">
+											<div>
+												<div class="txt-s-101 cl6 p-b-10">
+													House No/Apartment <span class="cl12">*</span>
+												</div>
+
+												<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-20 focus1" value="<%= user.address.house %>"  type="text" name="house" id="caHouse">
+												<div class="txt-s-101 cl6 p-b-10">
+													<span class="cl12" id="caErrHouse"></span>
+												</div>
+											</div>
+										</div>
+
+
+										<div class="col-sm-12 p-b-23">
+											<div>
+												<div class="txt-s-101 cl6 p-b-10">
+													Landmark <span class="cl12">*</span>
+												</div>
+
+												<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-20 focus1" value="<%= user.address.landmark %>" type="text" name="landmark" id="caLandmark">
+												<div class="txt-s-101 cl6 p-b-10">
+													<span class="cl12" id="caErrLandmark"></span>
+												</div>
+												<input type="hidden" name="lat" id="loc_lat" value="<%= user.address.coords.lat %>" />
+												<input type="hidden" name="lng" id="loc_long" value="<%= user.address.coords.lng %>" />
+											</div>
+										</div>
+
+										<div class="col-sm-6 p-b-23">
+											<div>
+												<div class="txt-s-101 cl6 p-b-10">
+													Postal Code <span class="cl12">*</span>
+												</div>
+
+												<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-20 focus1" type="text" value="<%= user.address.postal %>" name="postal" id="caPostal"onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+												<div class="txt-s-101 cl6 p-b-10">
+													<span class="cl12" id="caErrPostal"></span>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div class="flex-w p-rl-15 p-t-17">
+										<button type="submit" class="flex-c-m txt-s-105 cl0 bg10 size-a-43 hov-btn2 trans-04 p-rl-10">
+											Save changes
+										</button>
+									</div>
+								</form>
+							</div>
+
+							<!-- - -->
+							<div class="tab-pane fade" id="change-password" role="tabpanel">
+								<form onsubmit="validateCp()" action="/changepass" method="POST" id="cpform">
+										<h5 class="txt-m-109 cl3 p-rl-15 p-t-10 p-b-17">
+											Password change
+										</h5>
+
+										<div class="col-12 p-b-23">
+											<div>
+												<div class="txt-s-101 cl6 p-b-10">
+													Current password
+												</div>
+
+												<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-20 focus1" type="text" name="currentpass" id="cpCurrent">
+												<div class="txt-s-101 cl6 p-b-10">
+													<span class="cl12" id="cpErrCurrent"></span>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-12 p-b-23">
+											<div>
+												<div class="txt-s-101 cl6 p-b-10">
+													New password
+												</div>
+
+												<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-20 focus1" type="text" name="newpass" id="cpNew">
+												<div class="txt-s-101 cl6 p-b-10">
+													<span class="cl12" id="cpErrNew"></span>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-12 p-b-23">
+											<div>
+												<div class="txt-s-101 cl6 p-b-10">
+													Confirm new password
+												</div>
+
+												<input class="txt-s-120 cl3 size-a-21 bo-all-1 bocl15 p-rl-20 focus1" type="text" name="cfnewpass" id="cpCfNew">
+												<div class="txt-s-101 cl6 p-b-10">
+													<span class="cl12" id="cpErrCfnew"></span>
+												</div>
+											</div>
+										</div>
+
+										<div class="flex-w p-rl-15 p-t-17">
+											<button type="submit" class="flex-c-m txt-s-105 cl0 bg10 size-a-43 hov-btn2 trans-04 p-rl-10">
+												Save changes
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		const formCa = document.getElementById('caform');
+		const houseCa = document.getElementById('caHouse');
+		const landCa = document.getElementById('caLandmark');
+		const postalCa = document.getElementById('caPostal');
+
+		// change address form
+		formCa.addEventListener('submit', (e) => {
+			e.preventDefault();
+		})
+		function validateCa(){
+			let returnVal = true;
+
+			const houseValue = houseCa.value.trim();
+			// const apartValue = apartCa.value.trim();
+			const landValue = landCa.value.trim();
+			const postalValue = postalCa.value.trim();
+			var latInput = document.getElementById('loc_lat');
+			var lngInput = document.getElementById('loc_long');
+			var lat = latInput.value;
+            var lng = lngInput.value;
+			
+			if (houseValue == '') {
+				setError('caErrHouse','Please enter House number.')
+				returnVal = false;
+			} else {
+				removeError('caErrHouse')
+			}
+			if (landValue == '') {
+				setError('caErrLandmark','Please enter Landmark.')
+				returnVal = false;
+			} else {
+				removeError('caErrLandmark')
+			}
+			if (postalValue == '') {
+				setError('caErrPostal','Please enter Postal.')
+				returnVal = false;
+			} else {
+				removeError('caErrPostal')
+			}
+			if (lat == "" || lng == "") {
+				swal({
+					icon: 'error',
+					title: 'Opps...',
+					text: 'Please select valid address!'
+				})
+				returnVal = false;
+            }
+			// return returnVal;
+			if (returnVal) {
+				formCa.submit();
+			}
+		}
+
+		const formCp = document.getElementById('cpform');
+		const crPassCp = document.getElementById('cpCurrent');
+		const newPassCp = document.getElementById('cpNew');
+		const cfNewPassCp = document.getElementById('cpCfNew');
+
+		// change pass form
+		formCp.addEventListener('submit', (e) => {
+			e.preventDefault();
+		})
+		function validateCp(){
+			let returnVal = true;
+
+			const crPassValue = crPassCp.value.trim();
+			const newPassValue = newPassCp.value.trim();
+			const cfNewPassValue = cfNewPassCp.value.trim();
+
+			if (crPassValue == '') {
+				setError('cpErrCurrent', 'Please enter Current password.')
+				returnVal = false;
+			} else {
+				removeError('cpErrCurrent')
+			}
+
+			if (newPassValue == '') {
+				setError('cpErrNew', 'Please enter New password.')
+				returnVal = false;
+			} else if (newPassValue.length < 6) {
+				setError('cpErrNew','Password should atleast 6 characters long.')
+				returnVal = false;
+			} else if (newPassValue == crPassValue) {
+				setError('cpErrNew','New password can not be same as current password.')
+				returnVal = false;
+			} else {
+				removeError('cpErrNew')
+			}
+
+			if (cfNewPassValue == '') {
+				setError('cpErrCfnew', 'Please enter new password.')
+				returnVal = false;
+			} else if (cfNewPassValue !== newPassValue) {
+				setError('cpErrCfnew','Password confirm password do not match.')
+				returnVal = false;
+			} else {
+				removeError('cpErrCfnew')
+			}
+			
+			if (returnVal) {
+				console.log(returnVal);
+				formCp.submit();
+			}
+		}
+
+		function setError(id, error) {
+			// set error msg
+			const element = document.getElementById(id);
+			element.innerHTML = '* ' + error;
+		}
+		function removeError(id) {
+			// remove error msg
+			const element = document.getElementById(id);
+			element.innerHTML = '';
+		}
+	</script>
+<%- include('_layouts/footer') %>

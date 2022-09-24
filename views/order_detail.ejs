@@ -1,0 +1,113 @@
+<%- include('_layouts/header') %>
+	
+<!-- Title page -->
+<section class="how-overlay2 bg-img1" style="background-image: url(/images/bg-07.jpg);">
+    <div class="container">
+        <div class="txt-center p-t-160 p-b-165">
+            <h2 class="txt-l-101 cl0 txt-center p-b-14 respon1">
+                Order Details
+            </h2>
+
+            <span class="txt-m-201 cl0 flex-c-m flex-w">
+                <a href="/" class="txt-m-201 cl0 hov-cl10 trans-04 m-r-6">
+                    Home
+                </a>
+
+                <span>
+                    / Order details
+                </span>
+            </span>
+        </div>
+    </div>
+</section>
+
+<!-- content page -->
+<div class="bg0 p-tb-100">
+    <div class="container">
+        <div class="wrap-table-shopping-cart">
+            <table class="table-shopping-cart">
+                <tr class="table_head bg12">
+                    <th class="column-1 p-l-30">Product</th>
+                    <th class="column-2">Weight</th>
+                    <th class="column-3">Quantity</th>
+                    <th class="column-2">Price</th>
+                    <th class="column-4">Total</th>
+                </tr>
+
+                <% for( let i = 0; i < updated.length; i++ ) { %>
+                    <tr class="table_row">
+                        <td class="column-1">
+                            <div class="flex-w flex-m">
+                                <div class="wrap-pic-w size-w-50 bo-all-1 bocl12 m-r-30">
+                                    <img src="<%= updated[i].image %>" alt="IMG" onerror="this.onerror=null; this.src='/images/no_image_available_3.jpg';" >
+                                </div>
+    
+                                <span>
+                                    <%= updated[i].name %>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="column-2">
+                            <%= updated[i].weight %> <%= updated[i].unit %>
+                        </td>
+                        <td class="column-2">
+                            <%= updated[i].quantity %>
+                        </td>
+                        <td class="column-2">
+                            <div class="flex-w flex-sb-m">
+                                <span>
+                                    &#8377; <%= updated[i].price %>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="column-4">
+                            <div class="flex-w flex-sb-m">
+                                <span class="total">
+                                    &#8377; <%= updated[i].price * updated[i].quantity %>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                <% } %>
+            </table>
+        </div>
+        <div class="flex-col-l p-t-68">
+            <span class="txt-m-123 cl3 p-b-18">
+                TOTAL
+            </span>
+            
+            <div class="flex-w flex-m bo-b-1 bocl15 w-full p-tb-18">
+                <span class="size-w-58 txt-m-109 cl3">
+                    Subtotal
+                </span>
+
+                <span class="size-w-59 txt-m-104 cl6">&#8377; <%= order.totalamount %></span>
+            </div>
+            <% if (order.discountamount != 0) { %>
+                <div class="flex-w flex-m bo-b-1 bocl15 w-full p-tb-18">
+                    <span class="size-w-58 txt-m-109 cl3">
+                        Discount
+                    </span>
+    
+                    <span class="size-w-59 txt-m-104 cl6">- &#8377; <%= order.discountamount %></span>
+                </div>
+            <% } %>
+            <div class="flex-w flex-m bo-b-1 bocl15 w-full p-tb-18">
+                <span class="size-w-58 txt-m-109 cl3">
+                    Delivery charge
+                </span>
+
+                <span class="size-w-59 txt-m-104 cl6">&#8377; <%= order.deliverycharge %></span>
+            </div>
+            <div class="flex-w flex-m bo-b-1 bocl15 w-full p-tb-18">
+                <span class="size-w-58 txt-m-109 cl3">
+                    Total
+                </span>
+
+                <span class="size-w-59 txt-m-104 cl10">&#8377; <%= order.payableamount %></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('_layouts/footer') %>

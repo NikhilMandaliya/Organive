@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png"> -->
+    <link rel="icon" type="image/png" href="/images/icons/favicon.png"/>
+    <title><%= title %></title>
+    <!-- ===== Bootstrap CSS ===== -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- ===== Plugin CSS ===== -->
+    <!-- ===== Animation CSS ===== -->
+    <link href="/css/animate.css" rel="stylesheet">
+    <!-- ===== Custom CSS ===== -->
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- ===== Color CSS ===== -->
+    <link href="/css/colors/default.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="mini-sidebar">
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="cssload-speeding-wheel"></div>
+    </div>
+    <section id="wrapper" class="login-register">
+        <div class="login-box">
+            <div class="white-box">
+                <form class="form-horizontal form-material" id="loginform" action="/vendor/login" method="post" onsubmit="validate()">
+                    <h3 class="box-title m-b-20">Sign In</h3>
+                    <!-- messages -->
+                    <div class="w-75 p-3" style="margin: auto;">
+                        <%- messages('messages', locals) %>
+                    </div>
+                    <div class="form-group ">
+                        <div class="col-xs-12">
+                            <input id="email" class="form-control" type="text" placeholder="Email" name="email">
+                            <div class="txt-s-101 cl6 p-b-10">
+                                <span class="cl12" id="ErrEmail" style="color: red;"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <input id="pass" class="form-control" type="password" placeholder="Password" name="password">
+                            <div class="txt-s-101 cl6 p-b-10">
+                                <span class="cl12" id="ErrPass" style="color: red;"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <a href="/vendor/forgot" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a> </div>
+                    </div>
+                    <div class="form-group text-center m-t-20">
+                        <div class="col-xs-12">
+                            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Log In</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group m-b-0">
+                        <div class="col-sm-12 text-center">
+                            <p>Don't have an account? <a href="/vendor/register" class="text-primary m-l-5"><b>Register</b></a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+	<script>
+		const form = document.getElementById('loginform');
+		const email = document.getElementById('email');
+		const password = document.getElementById('pass');
+
+		// form
+		form.addEventListener('submit', (e) => {
+			e.preventDefault();
+		})
+		function validate(){
+			let returnVal = true;
+
+			const emailValue = email.value.trim();
+			const passwordValue = password.value.trim();
+
+			if (emailValue == '') {
+				setError('ErrEmail','Please enter email.')
+				returnVal = false;
+			} else if (!validateEmail(emailValue)) {
+				setError('ErrEmail','Please enter valid email.')
+				returnVal = false;
+			} else {
+				removeError('ErrEmail')
+			}
+			
+			if (passwordValue == '') {
+				setError('ErrPass','Please enter password.')
+				returnVal = false;
+			} else if (passwordValue.length < 6) {
+				setError('ErrPass','Password should atleast 6 characters long.')
+				returnVal = false;
+			} else {
+				removeError('ErrPass')
+			}
+			// return returnVal;
+			if (returnVal) {
+				form.submit();
+			}
+		}
+
+		function setError(id, error) {
+			// set error msg
+			const element = document.getElementById(id);
+			element.innerHTML = '* ' + error;
+		}
+		function removeError(id) {
+			// remove error msg
+			const element = document.getElementById(id);
+			element.innerHTML = '';
+		}
+		
+		function validateEmail(email){
+			return email.match(
+				/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+			);
+		}
+	</script>
+    <!-- jQuery -->
+    <script src="../plugins/components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="/js/sidebarmenu.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="/js/waves.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="/js/custom.js"></script>
+    <!--Style Switcher -->
+    <script src="../plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
+</body>
+
+</html>

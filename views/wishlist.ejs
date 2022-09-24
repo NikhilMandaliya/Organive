@@ -1,0 +1,95 @@
+<%- include('_layouts/header') %>
+
+	<!-- Title page -->
+	<section class="how-overlay2 bg-img1" style="background-image: url(/images/bg-07.jpg);">
+		<div class="container">
+			<div class="txt-center p-t-160 p-b-165">
+				<h2 class="txt-l-101 cl0 txt-center p-b-14 respon1">
+					Wishlist
+				</h2>
+
+				<span class="txt-m-201 cl0 flex-c-m flex-w">
+					<a href="/" class="txt-m-201 cl0 hov-cl10 trans-04 m-r-6">
+						Home
+					</a>
+
+					<span>
+						/ Wishlist
+					</span>
+				</span>
+			</div>
+		</div>
+	</section>
+
+	<!-- content page -->
+	<div class="bg0 p-t-100 p-b-80">
+		<div class="container">
+		<div class="wrap-table-shopping-cart rs1-table">
+				<table class="table-shopping-cart">
+					<tr class="table_head bg12">
+						<th class="column-1 p-l-30">Product Name</th>
+						<th class="column-2">Unit Price</th>
+						<th class="column-3">Add to cart</th>
+					</tr>
+					<% if (items.length > 0) { %>
+						<% for( let i = 0; i < items.length; i++ ) { %>
+							<tr class="table_row">
+								<td class="column-1">
+									<div class="flex-w flex-m">
+										<div class="wrap-pic-w size-w-50 bo-all-1 bocl12 m-r-30">
+											<img src="<%= items[i].image %>" alt="IMG" onerror="this.onerror=null; this.src='/images/no_image_available_3.jpg';" >
+										</div>
+		
+										<span>
+											<a href="/products/detail/<%= items[i].id %>" class="txt-m-103 cl3 txt-center hov-cl10 trans-04"><%= items[i].productname %></a>
+										</span>
+									</div>
+								</td>
+								<td class="column-2">
+									&#8377; <%= items[i].totalprice %>
+								</td>
+								<td class="column-3">
+									<input type="text" id="id" value="<%= items[i].id %>" class="<%= items[i].id %>" hidden>
+									<div class="flex-w flex-sb-m">
+										<a href="javascript:void(0)" class="flex-c-m txt-s-103 cl6 size-a-2 how-btn1 bo-all-1 bocl11 hov-btn1 trans-04 js-addcart-b1">
+											Add to cart
+											<span class="lnr lnr-chevron-right m-l-7"></span>
+											<span class="lnr lnr-chevron-right"></span>
+										</a>
+		
+										<div class="fs-15 hov-cl10 pointer">
+											<a href="/wishlist/remove/<%= items[i].id %>"><span class="lnr lnr-cross"></span></a>
+										</div>
+									</div>
+								</td>
+							</tr>
+						<% } %>
+					<% } else { %>
+						<tr class="table_row">
+							<td class="column-1" colspan="4">
+								<div class="flex-w flex-m">
+									Wishlist is empty.
+								</div>
+							</td>
+						</tr>
+					<% } %>
+				</table>
+			</div>
+
+			<div class="flex-w flex-sb-m p-t-30">
+				<div class="flex-w flex-m m-r-50 m-tb-10">
+					<% if (items.length > 0) { %>
+						<a href="/wishlist/remove/all" class="flex-c-m txt-s-103 cl0 bg10 size-h-9 hov-btn2 trans-04 pointer p-rl-29 m-tb-10" onclick="return confirm('Are you sure?')">
+							Clear wishlist
+						</a>
+					<% } %>
+				</div>
+
+				<a href="/products/all" class="flex-c-m txt-s-103 cl0 bg10 size-h-9 hov-btn2 trans-04 pointer p-rl-29 m-tb-10">
+					Continue shopping
+				</a>
+			</div>
+		</div>
+	</div>
+	
+<%- include('_layouts/footer') %>

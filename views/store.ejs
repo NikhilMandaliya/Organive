@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title> <%= title %> | Organive </title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="/images/icons/favicon.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/fonts/linearicons-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/slick/slick.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/lightbox2/css/lightbox.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/revolution/css/layers.css">
+	<link rel="stylesheet" type="text/css" href="/vendor/revolution/css/navigation.css">
+	<link rel="stylesheet" type="text/css" href="/vendor/revolution/css/settings.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/noui/nouislider.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/slide100/slide100.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+<!--===============================================================================================-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBfyfOjY-XZr1g9zDeqG2iiK8m0Ko9Zp3g"></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBP19Ko2NR29ggZ2MRH9ayjd46vsexz_e0"></script>
+    <script>
+        var searchInput = 'search_input';
+
+        $(document).ready(function () {
+            var autocomplete;
+            autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+                types: ['geocode'],
+                componentRestrictions: {
+                    // country: "USA"
+                    country: "in"
+                }
+            });
+            
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var near_place = autocomplete.getPlace();
+                document.getElementById('loc_lat').value = near_place.geometry.location.lat();
+                document.getElementById('loc_long').value = near_place.geometry.location.lng();
+            });
+        });
+    </script>
+</head>
+<body class="animsition">
+
+<div class="store_main_wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 main_left_store">
+                <div class="left_store">
+			        <div class="row">
+                        <div class="col-md-6">
+					        <img src="/images/icons/logo-01.png">
+                        </div>
+                        <!-- <div class="col-md-6 btn_left_store"> -->
+                           <!-- <a href="#" class="login_left_store">Login</a> -->
+                           <!-- <a href="#">Sign up</a> -->
+                        <!-- </div> -->
+                    </div>
+                    <div class="title_left_store">
+                        <!-- <h2>Late night at office?</h2> -->
+                        <!-- <p>Order food from favourite restaurants near you.</p> -->
+                    </div>
+                    <form id="form" method="post" action="/store/nearstore" onsubmit="findStore()" onkeydown="return event.key != 'Enter';">
+                        <input type="text" placeholder="Enter your delivery location" id="search_input">
+                        <button>Find Store</button>
+                        <input type="hidden" id="loc_lat" name="lat" />
+                        <input type="hidden" id="loc_long" name="lng" />
+                        <br>
+                        <!-- <span id="no_location" style="background-color:red;color:white"></span> -->
+                        <% if (error) { %>
+                            <span id="err_msg" style="background-color: red; color: white; padding: 10px; display: hi;">Sorry! We don’t have a store at your location currently.</span>
+                        <% } %>
+                    </form>
+                    <div class="locate_store">
+                        <a href="javascript:void(0)" onclick="myLocation()"><i class="fa fa-map-marker"></i> Locate me</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="right_store">
+                    <img src="/images/sample_bg.png">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg12">
+    <div class="container">
+        <div class="wrap-footer flex-w p-t-60 p-b-62">
+            <div class="footer-col1">
+                <div class="footer-col-title">
+                    <a href="#">
+                        <img src="/images/icons/logo-01.png" alt="LOGO">
+                    </a>
+                </div>
+
+                <p class="txt-s-101 cl6 size-w-10 p-b-16">
+                    There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
+                </p>
+
+                <ul>
+                    <li class="txt-s-101 cl6 flex-t p-b-10">
+                        <span class="size-w-11">
+                            <img src="/images/icons/icon-mail.png" alt="ICON-MAIL">
+                        </span>
+                        
+                        <span class="size-w-12 p-t-1">
+                            <% if (locals.contact) { %>
+                                <%= contact.email %>
+                            <% } else { %>
+                                error@example.com
+                            <% } %>
+                        </span>
+                    </li>
+
+                    <li class="txt-s-101 cl6 flex-t p-b-10">
+                        <span class="size-w-11">
+                            <img src="/images/icons/icon-pin.png" alt="ICON-MAIL">
+                        </span>
+                        
+                        <span class="size-w-12 p-t-1">
+                            <% if (locals.contact) { %>
+                                <%= contact.address %>
+                            <% } else { %>
+                                No 40 Baria Sreet 133/2, Error
+                            <% } %>
+                        </span>
+                    </li>
+
+                    <li class="txt-s-101 cl6 flex-t p-b-10">
+                        <span class="size-w-11">
+                            <img src="/images/icons/icon-phone.png" alt="ICON-MAIL">
+                        </span>
+                        
+                        <span class="size-w-12 p-t-1">
+                            <% if (locals.contact) { %>
+                                <%= contact.phone %>
+                            <% } else { %>
+                                (785) 977 5767
+                            <% } %>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-col1">
+                <div class="footer-col-title flex-m">
+                    <span class="txt-m-109 cl3">
+                        Customer Service
+                    </span>
+                </div>
+
+                <ul>
+                    <li class="p-b-16">
+                        <a href="/about_us" class="txt-s-101 cl6 hov-cl10 trans-04 p-tb-5">
+                            About Us
+                        </a>
+                    </li>
+
+                    <li class="p-b-16">
+                        <a href="/contact" class="txt-s-101 cl6 hov-cl10 trans-04 p-tb-5">
+                            Contact Us
+                        </a>
+                    </li>
+
+                    <li class="p-b-16">
+                        <a href="/faqs" class="txt-s-101 cl6 hov-cl10 trans-04 p-tb-5">
+                            FAQs
+                        </a>
+                    </li>						
+
+                    <li class="p-b-16">
+                        <a href="/terms_con" class="txt-s-101 cl6 hov-cl10 trans-04 p-tb-5">
+                            Terms & Condition
+                        </a>
+                    </li>						
+
+                    <li class="p-b-16">
+                        <a href="/privacy_policy" class="txt-s-101 cl6 hov-cl10 trans-04 p-tb-5">
+                            Privacy Policy
+                        </a>
+                    </li>						
+                </ul>
+            </div>
+
+            <div class="footer-col4">
+                <div class="footer-col-title flex-m">
+                    <span class="txt-m-109 cl3">
+                        Instagram
+                    </span>
+                </div>
+
+                <div class="flex-w flex-sb p-t-6">
+                    <div class="size-w-13 m-b-10">
+                        <a href="#" class="dis-block size-a-7 bg-img1 hov4"
+                        style="background-image: url('/images/instagram-01.jpg');"></a>
+                    </div>
+                    
+                    <div class="size-w-13 m-b-10">
+                        <a href="#" class="dis-block size-a-7 bg-img1 hov4"
+                        style="background-image: url('/images/instagram-02.jpg');"></a>
+                    </div>
+
+                    <div class="size-w-13 m-b-10">
+                        <a href="#" class="dis-block size-a-7 bg-img1 hov4"
+                        style="background-image: url('/images/instagram-03.jpg');"></a>
+                    </div>
+
+                    <div class="size-w-13 m-b-10">
+                        <a href="#" class="dis-block size-a-7 bg-img1 hov4"
+                        style="background-image: url('/images/instagram-04.jpg');"></a>
+                    </div>
+
+                    <div class="size-w-13 m-b-10">
+                        <a href="#" class="dis-block size-a-7 bg-img1 hov4"
+                        style="background-image: url('/images/instagram-05.jpg');"></a>
+                    </div>
+
+                    <div class="size-w-13 m-b-10">
+                        <a href="#" class="dis-block size-a-7 bg-img1 hov4"
+                        style="background-image: url('/images/instagram-06.jpg');"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-c bo-t-1 bocl14 p-tb-14">
+            <span class="txt-s-101 cl9 p-tb-10 p-r-29">
+                Copyright © <%= new Date().getFullYear() %> Organive. All rights reserved.
+            </span>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to top -->
+<div class="btn-back-to-top bg0-hov" id="myBtn">
+    <span class="symbol-btn-back-to-top">
+        <span class="lnr lnr-chevron-up"></span>
+    </span>
+</div>
+
+<!--===============================================================================================-->	
+    <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script>
+        var form = document.getElementById('form');
+        var latInput = document.getElementById('loc_lat');
+        var lngInput = document.getElementById('loc_long');
+
+        form.addEventListener('submit', (e) => {
+			e.preventDefault();
+		})
+
+        function myLocation() { navigator.geolocation.getCurrentPosition(success, error); }
+        
+        function success(position) 
+        {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            latInput.value = lat;
+            lngInput.value = lng;
+            findStore();
+        }
+        
+        function error() { alert("You have blocked us to know your location."); }
+
+        function findStore() {
+            var lat = latInput.value;
+            var lng = lngInput.value;
+
+            if (lat == "" || lng == "") {
+                swal({
+					icon: 'error',
+					title: 'Opps...',
+					text: 'Please select valid address!'
+				})
+                return false
+            }
+            form.submit();
+        }
+    </script>
+<!--===============================================================================================-->
+    <script src="/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/bootstrap/js/popper.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/revolution/js/jquery.themepunch.tools.min.js"></script>
+    <script src="/vendor/revolution/js/jquery.themepunch.revolution.min.js"></script>
+    <script src="/vendor/revolution/js/extensions/revolution.extension.video.min.js"></script>
+    <script src="/vendor/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+    <script src="/vendor/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+    <script src="/vendor/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+    <script src="/vendor/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script src="/vendor/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+    <script src="/vendor/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+    <script src="/vendor/revolution/js/extensions/revolution.extension.migration.min.js"></script>
+    <script src="/vendor/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+    <script src="/js/revo-custom.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/daterangepicker/moment.min.js"></script>
+    <script src="/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/slick/slick.min.js"></script>
+    <script src="/js/slick-custom.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/parallax100/parallax100.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/lightbox2/js/lightbox.min.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/isotope/isotope.pkgd.min.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/sweetalert/sweetalert.min.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/countdowntime/moment.min.js"></script>
+    <script src="/vendor/countdowntime/moment-timezone.min.js"></script>
+    <script src="/vendor/countdowntime/moment-timezone-with-data.min.js"></script>
+    <script src="/vendor/countdowntime/jquery.countdown.min.js"></script>
+    <script src="/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/noui/nouislider.min.js"></script>
+<!--===============================================================================================-->
+    <script src="/vendor/slide100/slide100.js"></script>
+    <script src="/js/slide100-custom.js"></script>
+<!--===============================================================================================-->
+    <script src="/js/main.js"></script>
+
+</body>
+</html>

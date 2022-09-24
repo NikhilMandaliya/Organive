@@ -1,0 +1,322 @@
+<%-include('../_layouts/admin_header')-%>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-info">
+                    <div class="panel-wrapper collapse in" aria-expanded="true">
+                        <form onsubmit="validate()" method="POST" action="/admin/driver/edit/<%= driver.id %>" id="addDriverForm"
+                            enctype="multipart/form-data">
+                            <div class="panel-body">
+                                <div class="form-body">
+                                    <h2 class="page-title m-b-20"> Edit Driver </h2>
+                                    <hr>
+                                    <!-- errors -->
+                                    <% if(typeof alert != 'undefined') { %>
+                                        <div class="w-75 p-3" style="margin: auto;">
+                                            <% alert.forEach(function(error) { %>
+                                                <div class="alert alert-danger alert-dismissible show" role="alert">
+                                                    <%= error.msg %>
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">×</span>
+                                                    </button>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+                                        <hr>
+                                    <% } %>
+                                    <div class="w-75 p-3" style="margin: auto;">
+                                        <%- messages('messages', locals) %>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Name</label>
+                                                <input type="text" id="name" class="form-control" name="name" value="<%= driver.name %>" placeholder="Name">
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="Errname"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Number</label>
+                                                <input type="text" id="number" class="form-control" name="number" value="<%= driver.number %>" placeholder="Number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="Errnumber"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Bank Name</label>
+                                                <input type="text" id="Bankname" class="form-control" name="Bankname" value="<%= driver.Bankname %>" placeholder="Bank name">
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="ErrbankName"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Bank A/c No.</label>
+                                                <input type="text" id="Accountnumber" class="form-control" name="Accountnumber" value="<%= driver.Accountnumber %>" placeholder="A/c No.">
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="ErrAccountnumber"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">IFSC code</label>
+                                                <input type="text" id="IFSCcode" class="form-control" name="IFSCcode" value="<%= driver.IFSCcode %>" placeholder="IFSC code">
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="Errifsc"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h3 class="box-title">Driver image</h3>
+                                            <input type="file" id="input-file-now1" name="driverImage" class="dropify" data-default-file="<%= driver.image %>"/>
+                                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                <span class="cl12" id="catErrFile1"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h3 class="box-title">Vehicle Image</h3>
+                                            <input type="file" id="input-file-now2" name="vehicleImage" class="dropify" data-default-file="<%= driver.vehicleimage %>"/>
+                                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                <span class="cl12" id="catErrFile2"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h3 class="box-title">License Frontside</h3>
+                                            <input type="file" id="input-file-now3" name="frontImage" class="dropify" data-default-file="<%= driver.frontimage %>"/>
+                                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                <span class="cl12" id="catErrFile3"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h3 class="box-title">License Backside</h3>
+                                            <input type="file" id="input-file-now4" name="backImage" class="dropify" data-default-file="<%= driver.backimage %>"/>
+                                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                <span class="cl12" id="catErrFile4"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <a href="/admin/driver" class="btn btn-danger" style="color: white;">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        const form = document.getElementById('addDriverForm');
+
+        // loginform
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+        })
+        function validate() {
+            let returnVal = true;
+
+            const nameValue = document.getElementById('name').value.trim();
+            const numberValue = document.getElementById('number').value.trim();
+            const BanknameValue = document.getElementById('Bankname').value.trim();
+            const AccountnumberValue = document.getElementById('Accountnumber').value.trim();
+            const IFSCcodeValue = document.getElementById('IFSCcode').value.trim();
+            const filevalue1 = document.getElementById('input-file-now1').value;
+            const filevalue2 = document.getElementById('input-file-now2').value;
+            const filevalue3 = document.getElementById('input-file-now3').value;
+            const filevalue4 = document.getElementById('input-file-now4').value;
+            const ext1 = filevalue1.substring(filevalue1.lastIndexOf('.') + 1);
+            const ext2 = filevalue2.substring(filevalue2.lastIndexOf('.') + 1);
+            const ext3 = filevalue3.substring(filevalue3.lastIndexOf('.') + 1);
+            const ext4 = filevalue4.substring(filevalue4.lastIndexOf('.') + 1);
+
+            if (nameValue == '') {
+                setError('Errname', 'Please enter Name.')
+                returnVal = false;
+            } else {
+                removeError('Errname')
+            }
+
+            if (numberValue == '') {
+                setError('Errnumber', 'Please enter Contact number.')
+                returnVal = false;
+            } else if (numberValue.length < 10 || numberValue.length > 10) {
+                setError('Errnumber','Please Enter 10 Digit Contact number.')
+                returnVal = false;
+            } else {
+                removeError('Errnumber')
+            }
+
+            if (BanknameValue == '') {
+                setError('ErrbankName', 'Please enter Bank name.')
+                returnVal = false;
+            } else {
+                removeError('ErrbankName')
+            }
+
+            if (AccountnumberValue == '') {
+                setError('ErrAccountnumber', 'Please enter Account number.')
+                returnVal = false;
+            } else {
+                removeError('ErrAccountnumber')
+            }
+
+            if (IFSCcodeValue == '') {
+                setError('Errifsc', 'Please enter IFSC code.')
+                returnVal = false;
+            } else {
+                removeError('Errifsc')
+            }
+
+            if (filevalue1 == '') {
+                removeError('catErrFile1')
+            } else if (ext1 == 'png' || ext1 == 'jpeg' || ext1 == 'jpg') {
+                removeError('catErrFile1')
+            } else {
+                setError('catErrFile1', 'Wrong file type!')
+                returnVal = false;
+            }
+
+            if (filevalue2 == '') {
+                removeError('catErrFile2')
+            } else if (ext2 == 'png' || ext2 == 'jpeg' || ext2 == 'jpg') {
+                removeError('catErrFile2')
+            } else {
+                setError('catErrFile2', 'Wrong file type!')
+                returnVal = false;
+            }
+
+            if (filevalue3 == '') {
+                removeError('catErrFile3')
+            } else if (ext3 == 'png' || ext3 == 'jpeg' || ext3 == 'jpg') {
+                removeError('catErrFile3')
+            } else {
+                setError('catErrFile3', 'Wrong file type!')
+                returnVal = false;
+            }
+
+            if (filevalue4 == '') {
+                removeError('catErrFile4')
+            } else if (ext4 == 'png' || ext4 == 'jpeg' || ext4 == 'jpg') {
+                removeError('catErrFile4')
+            } else {
+                setError('catErrFile4', 'Wrong file type!')
+                returnVal = false;
+            }
+
+            if (returnVal) {
+                form.submit();
+            }
+        }
+
+        function setError(id, error) {
+            // set error msg
+            const element = document.getElementById(id);
+            element.innerHTML = '* ' + error;
+        }
+        function removeError(id) {
+            // remove error msg
+            const element = document.getElementById(id);
+            element.innerHTML = '';
+        }
+    </script>
+    <footer class="footer t-a-c">
+        © <%= new Date().getFullYear() %> Organive. All rights reserved.
+    </footer>
+    </div>
+    <!-- ===== Page-Content-End ===== -->
+    </div>
+    <!-- ===== Main-Wrapper-End ===== -->
+    <!-- ==============================
+Required JS Files
+=============================== -->
+    <!-- ===== jQuery ===== -->
+    <script src="/plugins/components/jquery/dist/jquery.min.js"></script>
+    <!-- ===== Bootstrap JavaScript ===== -->
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- ===== Slimscroll JavaScript ===== -->
+    <script src="/js/jquery.slimscroll.js"></script>
+    <!-- ===== Wave Effects JavaScript ===== -->
+    <script src="/js/waves.js"></script>
+    <!-- ===== Menu Plugin JavaScript ===== -->
+    <script src="/js/sidebarmenu.js"></script>
+    <!-- ===== Custom JavaScript ===== -->
+    <script src="/js/custom.js"></script>
+    <!-- ===== ckeditor JavaScript ===== -->
+    <script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+    <script src="/js/ckeditor.js"></script>
+    <!-- ===== Plugin JS ===== -->
+    <script src="/plugins/components/chartist-js/dist/chartist.min.js"></script>
+    <script src="/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src='/plugins/components/moment/moment.js'></script>
+    <script src='/plugins/components/fullcalendar/fullcalendar.js'></script>
+    <script src="/js/db2.js"></script>
+    <!-- jQuery file upload -->
+    <script src="/plugins/components/dropify/dist/js/dropify.min.js"></script>
+    <script>
+        $(function () {
+            // Basic
+            $('.dropify').dropify();
+            // Translated
+            $('.dropify-fr').dropify({
+                messages: {
+                    default: 'Glissez-déposez un fichier ici ou cliquez',
+                    replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+                    remove: 'Supprimer',
+                    error: 'Désolé, le fichier trop volumineux'
+                }
+            });
+            // Used events
+            var drEvent = $('#input-file-events').dropify();
+            drEvent.on('dropify.beforeClear', function (event, element) {
+                return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+            });
+            drEvent.on('dropify.afterClear', function (event, element) {
+                alert('File deleted');
+            });
+            drEvent.on('dropify.errors', function (event, element) {
+                console.log('Has Errors');
+            });
+            var drDestroy = $('#input-file-to-destroy').dropify();
+            drDestroy = drDestroy.data('dropify')
+            $('#toggleDropify').on('click', function (e) {
+                e.preventDefault();
+                if (drDestroy.isDropified()) {
+                    drDestroy.destroy();
+                } else {
+                    drDestroy.init();
+                }
+            })
+        });
+    </script>
+    <!-- ===== Style Switcher JS ===== -->
+    <script src="/plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
+    </body>
+
+    </html>

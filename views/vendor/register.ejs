@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png"> -->
+    <link rel="icon" type="image/png" href="/images/icons/favicon.png"/>
+    <title><%= title %></title>
+    <!-- ===== Bootstrap CSS ===== -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- ===== Plugin CSS ===== -->
+    <!-- ===== Animation CSS ===== -->
+    <link href="/css/animate.css" rel="stylesheet">
+    <!-- ===== Custom CSS ===== -->
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- ===== Color CSS ===== -->
+    <link href="/css/colors/default.css" id="theme" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBP19Ko2NR29ggZ2MRH9ayjd46vsexz_e0"></script>
+    <script>
+        var searchInput = 'address';
+
+        $(document).ready(function () {
+            var autocomplete;
+            autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+                types: ['geocode'],
+                componentRestrictions: {
+                    country: "in"
+                }
+            });
+            
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var near_place = autocomplete.getPlace();
+                document.getElementById('loc_lat').value = near_place.geometry.location.lat();
+                document.getElementById('loc_long').value = near_place.geometry.location.lng();
+            });
+        });
+    </script>
+</head>
+
+<body class="mini-sidebar">
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="cssload-speeding-wheel"></div>
+    </div>
+    <section id="wrapper" class="login-register">
+        <div class="login-box" style="width: 70vw;">
+            <div class="white-box">
+                <form class="form-horizontal form-material" id="form" action="/vendor/register" method="post" onsubmit="return validate()" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+                    <h3 class="box-title m-b-20">Register</h3>
+
+                    <!-- errors -->
+                    <% if(typeof alert != 'undefined') { %>
+                        <div class="w-75 p-3" style="margin: auto;">
+                            <% alert.forEach(function(error) { %>
+                                <div class="alert alert-danger alert-dismissible show" role="alert">
+                                    <%= error.msg %>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                            <% }) %>
+                        </div>
+                    <% } %>
+                    <div class="w-75 p-3" style="margin: auto;">
+                        <%- messages('messages', locals) %>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-4">
+                            <!-- <label class="control-label">Owner Name</label> -->
+                            <input class="form-control" id="ownerName" type="text" placeholder="Owner Name" name="ownername">
+                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                <span class="cl12" id="ErrownerName"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <!-- <label class="control-label">Email</label> -->
+                            <input class="form-control" id="email" type="text" placeholder="Email" name="email">
+                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                <span class="cl12" id="Erremail"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <!-- <label class="control-label">Password</label> -->
+                            <input class="form-control" id="password" type="password" placeholder="Password" name="password">
+                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                <span class="cl12" id="Errpassword"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-3">
+                            <!-- <label class="control-label">Store Name</label> -->
+                            <input class="form-control" id="storeName" type="text" placeholder="Store Name" name="storename">
+                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                <span class="cl12" id="ErrstoreName"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <!-- <label class="control-label">Contact No</label> -->
+                            <input class="form-control" id="contact" type="text" placeholder="Contact No" name="contact" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                <span class="cl12" id="Errcontact"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <!-- <label class="control-label">Delivery Charge</label> -->
+                            <input class="form-control" id="delivery" type="text" placeholder="Delivery Charge" name="deliverycharge" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                <span class="cl12" id="Errdelivery"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <!-- <label class="control-label">Delivery Range</label> -->
+                            <input class="form-control" id="deliveryrange" type="text" placeholder="Delivery Range" name="deliveryrange" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                <span class="cl12" id="Errdeliveryrange"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-xs-4">
+                            <label class="control-label">Image</label>
+                            <input class="form-control btn-file" id="file1" type="file" required="" name="image">
+                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                <span class="cl12" id="ErrFile1"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <label class="control-label">ID Proof</label>
+                            <input class="form-control" id="file2" type="file" required="" name="idImage">
+                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                <span class="cl12" id="ErrFile2"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <label class="control-label">Address Proof</label>
+                            <input class="form-control" id="file3" type="file" required="" name="addImage">
+                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                <span class="cl12" id="ErrFile3"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <!-- <label class="control-label">Address</label> -->
+                            <input class="form-control" id="address" type="text" placeholder="Address" name="address">
+                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                <span class="cl12" id="Erraddress"></span>
+                            </div>
+                            <input type="hidden" name="lat" id="loc_lat" />
+                            <input type="hidden" name="lng" id="loc_long" />
+                        </div>
+                    </div>
+
+                    <div class="form-group text-center m-t-20">
+                        <div class="col-xs-12">
+                            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Sign Up</button>
+                        </div>
+                    </div>
+                    <div class="form-group m-b-0">
+                        <div class="col-sm-12 text-center">
+                            <p>Already have an account? <a href="/vendor/login" class="text-primary m-l-5"><b>Log In</b></a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script>
+        const form = document.getElementById('form');
+    
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+        })
+        function validate(){
+            let returnVal = true;
+    
+            const storeValue = document.getElementById('storeName').value.trim();
+            const ownerValue = document.getElementById('ownerName').value.trim();
+            const emailValue = document.getElementById('email').value.trim();
+            const passValue = document.getElementById('password').value.trim();
+            const contactValue = document.getElementById('contact').value.trim();
+            const deliveryValue = document.getElementById('delivery').value.trim();
+            const deliveryrangeValue = document.getElementById('deliveryrange').value.trim();
+            const addressValue = document.getElementById('address').value.trim();
+            const filevalue1 = document.getElementById('file1').value;
+            const filevalue2 = document.getElementById('file2').value;
+            const filevalue3 = document.getElementById('file3').value;
+            const ext1 = filevalue1.substring(filevalue1.lastIndexOf('.') + 1);
+            const ext2 = filevalue2.substring(filevalue2.lastIndexOf('.') + 1);
+            const ext3 = filevalue3.substring(filevalue3.lastIndexOf('.') + 1);
+    
+            var latInput = document.getElementById('loc_lat');
+			var lngInput = document.getElementById('loc_long');
+			var lat = latInput.value;
+            var lng = lngInput.value;
+
+            if (storeValue == '') {
+                setError('ErrstoreName','Please enter Store Name.')
+                returnVal = false;
+            } else {
+                removeError('ErrstoreName')
+            }
+    
+            if (ownerValue == '') {
+                setError('ErrownerName','Please enter Owner name.')
+                returnVal = false;
+            } else {
+                removeError('ErrownerName')
+            }
+    
+            if (emailValue == '') {
+                setError('Erremail','Please enter email.')
+                returnVal = false;
+            } else if (!validateEmail(emailValue)) {
+                setError('Erremail','Please enter valid email.')
+                returnVal = false;
+            } else {
+                console.log(emailValue);
+                removeError('Erremail')
+            }
+    
+            if (passValue == '') {
+                setError('Errpassword','Please enter password.')
+                returnVal = false;
+            } else if (passValue.length < 6) {
+                setError('Errpassword','Password should atleast 6 characters long.')
+                returnVal = false;
+            } else {
+                removeError('Errpassword')
+            }
+    
+            if (contactValue == '') {
+                setError('Errcontact','Please enter Contact number.')
+                returnVal = false;
+            } else if (contactValue.length < 10 || contactValue.length > 10) {
+                setError('Errcontact','Please Enter 10 Digit Contact number.')
+                returnVal = false;
+            } else {
+                removeError('Errcontact')
+            }
+    
+            if (deliveryValue == '') {
+                setError('Errdelivery','Please enter Delivery charge.')
+                returnVal = false;
+            } else {
+                removeError('Errdelivery')
+            }
+            if (deliveryrangeValue == '') {
+                setError('Errdeliveryrange','Please enter Delivery range.')
+                returnVal = false;
+            } else {
+                removeError('Errdeliveryrange')
+            }
+    
+            if (addressValue == '') {
+                setError('Erraddress','Please enter Address.')
+                returnVal = false;
+            } else if (lat == "" || lng == "") {
+				setError('Erraddress','Please select valid Address.')
+				returnVal = false;
+            } else {
+                removeError('Erraddress')
+            }
+    
+            if (ext1=='png' || ext1=='jpeg' || ext1=='jpg') {
+                removeError('ErrFile1')
+            } else {
+                setError('ErrFile1','Wrong file type!')
+                returnVal = false;
+            }
+            if (ext2=='png' || ext2=='jpeg' || ext2=='jpg') {
+                removeError('ErrFile2')
+            } else {
+                setError('ErrFile2','Wrong file type!')
+                returnVal = false;
+            }
+            if (ext3=='png' || ext3=='jpeg' || ext3=='jpg') {
+                removeError('ErrFile3')
+            } else {
+                setError('ErrFile3','Wrong file type!')
+                returnVal = false;
+            }
+            
+            if (returnVal) {
+                form.submit();
+            }
+        }
+    
+        function setError(id, error) {
+            // set error msg
+            const element = document.getElementById(id);
+            element.innerHTML = '* ' + error;
+        }
+        function removeError(id) {
+            // remove error msg
+            const element = document.getElementById(id);
+            element.innerHTML = '';
+        }
+    
+        function validateEmail(email){
+            return email.match(
+                /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+        }
+    </script>
+    <!-- jQuery -->
+    <script src="../plugins/components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="/js/sidebarmenu.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="/js/waves.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="/js/custom.js"></script>
+    <!--Style Switcher -->
+    <script src="../plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
+</body>
+
+</html>

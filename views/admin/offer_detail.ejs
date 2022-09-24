@@ -1,0 +1,65 @@
+<%- include('../_layouts/admin_header') %>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="white-box">
+                    <h4 class="box-title">Offer Details</h4>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="white-box text-center">
+                                <img src="<%= offer.image %>" id="product-image" class="img-responsive" onerror="this.onerror=null; this.src='/images/no_image_available_3.jpg';" />
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-6">
+                            <h4 class="box-title m-t-0"><%= offer.productname %></h4>
+                            <h2 class="pro-price m-b-0 m-t-20">&#8377; <%= offer.totalprice %>
+                                    <span class="old-price">&#8377; <%= offer.nondisc %></span>
+                                    <span class="text-danger"><%= offer.discount %>% off</span>
+                                </h2>
+                            <hr>
+                            <p><%= offer.description %></p>
+                            <hr>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <h3 class="box-title m-t-40">General Info</h3>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td width="390">Title</td>
+                                            <td> <%= offer.title %> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Category</td>
+                                            <td> <%= cat %> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Subcategory</td>
+                                            <td> <%= subcat %> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Company</td>
+                                            <td> <%= offer.company %> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Type</td>
+                                            <td> <%= offer.type %> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Weight</td>
+                                            <td> <%= offer.productweight %> <%= unit %></td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<%- include('../_layouts/admin_footer') %>

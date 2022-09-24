@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="/plugins/images/favicon.png"> -->
+    <link rel="icon" type="image/png" href="/images/icons/favicon.png"/>
+    <title> <%= title %> | Organive </title>
+    <!-- ===== Bootstrap CSS ===== -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- ===== Plugin CSS ===== -->
+    <link href="/plugins/components/chartist-js/dist/chartist.min.css" rel="stylesheet">
+    <link href="/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <link href="/plugins/components/datatables/jquery.dataTables.min.css" rel="stylesheet">
+    <!-- ===== Animation CSS ===== -->
+    <link href="/css/animate.css" rel="stylesheet">
+    <!-- ===== Custom CSS ===== -->
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- ===== Color CSS ===== -->
+    <link href="/css/colors/default.css" id="theme" rel="stylesheet">
+    <!-- ===== Plugin CSS ===== -->
+    <link rel="stylesheet" href="/plugins/components/dropify/dist/css/dropify.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="mini-sidebar">
+    <!-- ===== Main-Wrapper ===== -->
+    <div id="wrapper">
+        <div class="preloader">
+            <div class="cssload-speeding-wheel"></div>
+        </div>
+        <!-- ===== Top-Navigation ===== -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header">
+                <a class="navbar-toggle font-20 hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <div class="top-left-part">
+                    <a class="logo" href="/vendor">
+                        <b>
+                            <img src="/plugins/images/logo.png" alt="home" />
+                        </b>
+                        <span>
+                            <img src="/plugins/images/logo-text.png" alt="homepage" class="dark-logo" />
+                        </span>
+                    </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-left hidden-xs">
+                    <li>
+                        <a href="javascript:void(0)" class="sidebartoggler font-20 waves-effect waves-light"><i class="icon-arrow-left-circle"></i></a>
+                    </li>
+                    <li id="searchBox" style="display: none;">
+                        <form role="search" class="app-search hidden-xs">
+                            <i class="icon-magnifier"></i>
+                            <input id="searchBar" type="text" placeholder="Search..." class="form-control">
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- ===== Top-Navigation-End ===== -->
+        <!-- ===== Left-Sidebar ===== -->
+        <aside class="sidebar" role="navigation">
+            <div class="scroll-sidebar">
+                <div class="user-profile">
+                    <div class="dropdown user-pro-body">
+                        <div class="profile-image">
+                            <img src="<%= vendor.image %>" alt="user-img" class="img-circle" onerror="this.onerror=null; this.src='/images/no_image_available.jpg';" >
+                            <a href="javascript:void(0);" class="dropdown-toggle u-dropdown text-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="badge badge-danger">
+                                    <i class="fa fa-angle-down"></i>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu animated flipInY">
+                                <!-- <li><a href="javascript:void(0);"><i class="fa fa-user"></i> Profile</a></li>
+                                <li><a href="javascript:void(0);"><i class="fa fa-inbox"></i> Inbox</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="javascript:void(0);"><i class="fa fa-cog"></i> Account Settings</a></li>
+                                <li role="separator" class="divider"></li> -->
+                                <li><a href="/vendor/profile"><i class="fa fa-user"></i> Profile</a></li>
+                                <li><a href="/vendor/changepass"><i class="fa fa-unlock-alt"></i> Change Password</a></li>
+                                <li><a href="/vendor/logout"><i class="fa fa-power-off"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                        <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"><%= vendor.storename %></a></p>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul id="side-menu">
+                        <li>
+                            <a class="waves-effect" href="/vendor/" aria-expanded="false"><i class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Dashboard </span></a>
+                        </li>
+                        <li>
+                            <a class="waves-effect" aria-expanded="false"><span class="hide-menu"> Pages </span></a>
+                        </li>
+						<li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-grid fa-fw"></i> <span class="hide-menu"> Products <span class="label label-rounded label-primary pull-right"><i class="fa fa-angle-down"></i></span></span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/vendor/product">List of Products</a></li>
+                                <li><a href="/vendor/product/add">Add Product</a></li>
+                            </ul>
+                        </li>
+						<!-- <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-grid fa-fw"></i> <span class="hide-menu"> Offer Management <span class="label label-rounded label-primary pull-right"><i class="fa fa-angle-down"></i></span></span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/vendor/offer">List offer</a></li>
+                                <li><a href="/vendor/offer/add">Add New</a></li>
+                            </ul>
+                        </li> -->
+                        <li>
+                            <a href="/vendor/order" aria-expanded="false"><i class="icon-basket fa-fw"></i> <span class="hide-menu"> Order Management </span></a>
+                        </li>
+                        <li>
+                            <a href="/vendor/reject_order" aria-expanded="false"><i class="icon-close fa-fw"></i> <span class="hide-menu"> Reject Orders </span></a>
+                        </li>
+                        <li>
+                            <a href="#" aria-expanded="false"><i class="icon-people fa-fw"></i> <span class="hide-menu"> Commission Details </span></a>
+                        </li>
+                        <li>
+                            <a href="#" aria-expanded="false"><i class="icon-wallet fa-fw"></i> <span class="hide-menu"> Withdraw Amount </span></a>
+                        </li>
+                        <li>
+                            <a href="#" aria-expanded="false"><i class="icon-credit-card fa-fw"></i> <span class="hide-menu"> Transactions </span></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <!-- ===== Left-Sidebar-End ===== -->
+        <!-- ===== Page-Content ===== -->
+        <div class="page-wrapper">

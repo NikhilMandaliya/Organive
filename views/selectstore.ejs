@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title> <%= title %> </title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="/images/icons/favicon.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/fonts/linearicons-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/slick/slick.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/lightbox2/css/lightbox.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/revolution/css/layers.css">
+	<link rel="stylesheet" type="text/css" href="/vendor/revolution/css/navigation.css">
+	<link rel="stylesheet" type="text/css" href="/vendor/revolution/css/settings.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/noui/nouislider.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/slide100/slide100.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+<!--===============================================================================================-->
+	<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+
+</head>
+<body class="animsition">
+
+<!-- content page -->
+<div class="bg0 p-tb-100">
+    <div class="container">
+        <div class="wrap-table-shopping-cart">
+            <table class="table-shopping-cart">
+                <tr class="table_head bg12">
+                    <th class="column-1 p-l-30">Store Name</th>
+                    <th class="column-2">Address</th>
+                    <th class="column-3">Contact Details</th>
+                    <th class="column-2">Select Store</th>
+                </tr>
+                <% for( let i = 0; i < nearStores.length; i++ ) { %>
+                    <tr class="table_row">
+                        <td class="column-1">
+                            <div class="flex-w flex-m">
+                                <div class="wrap-pic-w size-w-50 bo-all-1 bocl12 m-r-30">
+                                    <img src="<%= nearStores[i].image %>" alt="IMG" onerror="this.onerror=null; this.src='/images/no_image_available.jpg';" >
+                                </div>
+                                <span>
+                                    <%= nearStores[i].storename %>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="column-2">
+                            <%= nearStores[i].address %>
+                        </td>
+                        <td class="column-2">
+                            <%= nearStores[i].contact %>
+                        </td>
+                        <td class="column-2">
+                            <div class="flex-w flex-sb-m">
+                                <a href="/store/select/<%= nearStores[i].id %>">
+                                    <button type="submit"  class="bg10 size-a-2 txt-s-107 cl0 p-rl-15 trans-04 hov-btn2">Select Store</button>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                <% } %>
+            </table>
+        </div>
+        <a href="/store" class="flex-c-m txt-s-105 cl0 bg10 size-a-2 hov-btn2 trans-04 p-rl-10 m-tb-10" style="width: fit-content;">
+            Change Store
+        </a>
+    </div>
+</div>
+
+
+<%- include('_layouts/footer') %>

@@ -1,0 +1,126 @@
+<%- include('_layouts/header') %>
+<body class="animsition">
+
+	<div class="new_banner_wrapper m-b-50">
+		<div class="container" id="search_div">
+			<form class="wrap-search-header flex-w" autocomplete="off">
+				<input class="plh1" id="search" type="text" name="search" placeholder="Search..." style="border: 2px solid #81b03f;">
+				<button class="flex-c-m trans-04">
+					<span class="lnr lnr-magnifier"></span>
+				</button>
+				<ul id="searchResult"></ul>
+			</form>
+			<ul class="category_banner_list">
+				<% for( let i = 0; i < cats.length; i++ ) { %>
+					<li><a href="/products/<%= cats[i].id %>"><%= cats[i].name %></a>
+				<% } %>
+			</ul>
+		</div>
+	</div>
+
+	<div class="size-a-1 flex-col-c-m p-b-48 m-t-30">
+		<div class="txt-center txt-m-201 cl10 how-pos1-parent m-b-14">
+			Featured Categories
+
+			<div class="how-pos1">
+				<img src="images/icons/symbol-02.png" alt="IMG">
+			</div>
+		</div>
+
+		<h3 class="txt-center txt-l-101 cl3 respon1">
+			Our Categories
+		</h3>
+	</div>
+	<!-- Item -->
+	<div class="sec-item flex-w" style="margin-bottom: 5em;">
+		<div class="of-hidden size-w-2 respon2">
+			<div class="hov-img1 pos-relative">
+				<img src="/uploads/category/all-products.jpg" alt="IMG" onerror="this.onerror=null; this.src='/images/no_image_available_3.jpg';" >
+				<a href="/products/all" class="s-full ab-t-l flex-col-c-m bg11 p-all-15 hov1-parent">
+					<span class="txt-l-102 cl0 txt-center p-t-30 p-b-13">
+						all
+					</span>
+				</a>
+			</div>
+		</div>
+		<% for( let i = 0; i < cats.length; i++ ) { %>
+			<div class="of-hidden size-w-2 respon2">
+				<div class="hov-img1 pos-relative">
+					<img src="<%= cats[i].image %>" alt="IMG" onerror="this.onerror=null; this.src='/images/no_image_available_3.jpg';" >
+					<a href="/products/<%= cats[i].id %>" class="s-full ab-t-l flex-col-c-m bg11 p-all-15 hov1-parent">
+						<span class="txt-l-102 cl0 txt-center p-t-30 p-b-13">
+							<%= cats[i].name %>
+						</span>
+					</a>
+				</div>
+			</div>
+		<% } %>
+	</div>
+
+	<% if (prods.length) { %>
+		<div class="size-a-1 flex-col-c-m p-b-48">
+			<div class="txt-center txt-m-201 cl10 how-pos1-parent m-b-14">
+				Featured Products
+	
+				<div class="how-pos1">
+					<img src="images/icons/symbol-02.png" alt="IMG">
+				</div>
+			</div>
+	
+			<h3 class="txt-center txt-l-101 cl3 respon1">
+				Our Products
+			</h3>
+		</div>
+	<% } %>
+	<!-- Item -->
+	<div class="sec-item flex-w" style="margin-bottom: 5em;">
+		<% for( let i = 0; i < prods.length; i++ ) { %>
+			<div class="col-sm-6 col-md-4 col-lg-3 p-b-30">
+				<div class="block1">
+					<div class="block1-bg wrap-pic-w bo-all-1 bocl12 hov3 trans-04">
+						<img src="<%= prods[i].image %>" class="product_img_set" alt="IMG" width="200px" onerror="this.onerror=null; this.src='/images/no_image_available_3.jpg';" >
+
+						<div class="block1-content flex-col-c-m p-b-46">
+							<a href="/products/detail/<%= prods[i].id %>" class="txt-m-103 cl3 txt-center hov-cl10 trans-04 js-name-b1">
+								<%= prods[i].productname %>
+							</a>
+
+							<span class="block1-content-more txt-m-104 cl9 p-t-21 trans-04">
+								<%= prods[i].totalprice %> &#8377;
+							</span>
+							<input type="text" id="id" value="<%= prods[i].id %>" class="<%= prods[i].id %>" hidden>
+							<div class="block1-wrap-icon flex-c-m flex-w trans-05">
+								<% if (prods[i].qtyweight < 1 ) { %>
+									<div class="outofstock">Out of stock</div>
+								<% } else { %>
+									<a href="/products/detail/<%= prods[i].id %>" class="block1-icon flex-c-m wrap-pic-max-w">
+										<img src="/images/icons/icon-view.png" alt="ICON">
+									</a>
+									<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addcart-b1">
+										<img src="/images/icons/icon-cart.png" alt="ICON">
+									</a>
+									<% if (user && user.wishlist.includes(prods[i].id)) { %>
+										<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addedwish-b1">
+											<img class="icon-addedwish-b1" src="/images/icons/icon-heart2.png" alt="ICON">
+										</a>
+										<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addwish-b1" hidden>
+											<img class="icon-addwish-b1" src="/images/icons/icon-heart.png" alt="ICON">
+										</a>
+									<% } else { %>
+										<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addedwish-b1" hidden>
+											<img class="icon-addedwish-b1" src="/images/icons/icon-heart2.png" alt="ICON">
+										</a>
+										<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addwish-b1">
+											<img class="icon-addwish-b1" src="/images/icons/icon-heart.png" alt="ICON">
+										</a>
+									<% } %>
+								<% } %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<% } %>
+	</div>
+
+<%- include('_layouts/footer') %>

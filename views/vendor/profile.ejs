@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="/plugins/images/favicon.png"> -->
+    <link rel="icon" type="image/png" href="/images/icons/favicon.png"/>
+    <title> <%= title %> </title>
+    <!-- ===== Bootstrap CSS ===== -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- ===== Plugin CSS ===== -->
+    <link href="/plugins/components/chartist-js/dist/chartist.min.css" rel="stylesheet">
+    <link href="/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <link href="/plugins/components/datatables/jquery.dataTables.min.css" rel="stylesheet">
+    <!-- ===== Animation CSS ===== -->
+    <link href="/css/animate.css" rel="stylesheet">
+    <!-- ===== Custom CSS ===== -->
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- ===== Color CSS ===== -->
+    <link href="/css/colors/default.css" id="theme" rel="stylesheet">
+    <!-- ===== Plugin CSS ===== -->
+    <link rel="stylesheet" href="/plugins/components/dropify/dist/css/dropify.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBP19Ko2NR29ggZ2MRH9ayjd46vsexz_e0"></script>
+    <script>
+        var searchInput = 'address';
+
+        $(document).ready(function () {
+            var autocomplete;
+            autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+                types: ['geocode'],
+                componentRestrictions: {
+                    country: "in"
+                }
+            });
+
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var near_place = autocomplete.getPlace();
+                document.getElementById('loc_lat').value = near_place.geometry.location.lat();
+                document.getElementById('loc_long').value = near_place.geometry.location.lng();
+            });
+        });
+    </script>
+</head>
+
+<body class="mini-sidebar">
+    <!-- ===== Main-Wrapper ===== -->
+    <div id="wrapper">
+        <div class="preloader">
+            <div class="cssload-speeding-wheel"></div>
+        </div>
+        <!-- ===== Top-Navigation ===== -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header">
+                <a class="navbar-toggle font-20 hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <div class="top-left-part">
+                    <a class="logo" href="/vendor">
+                        <b>
+                            <img src="/plugins/images/logo.png" alt="home" />
+                        </b>
+                        <span>
+                            <img src="/plugins/images/logo-text.png" alt="homepage" class="dark-logo" />
+                        </span>
+                    </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-left hidden-xs">
+                    <li>
+                        <a href="javascript:void(0)" class="sidebartoggler font-20 waves-effect waves-light"><i class="icon-arrow-left-circle"></i></a>
+                    </li>
+                    <li>
+                        <form role="search" class="app-search hidden-xs">
+                            <i class="icon-magnifier"></i>
+                            <input id="searchBar" type="text" placeholder="Search..." class="form-control">
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- ===== Top-Navigation-End ===== -->
+        <!-- ===== Left-Sidebar ===== -->
+        <aside class="sidebar" role="navigation">
+            <div class="scroll-sidebar">
+                <div class="user-profile">
+                    <div class="dropdown user-pro-body">
+                        <div class="profile-image">
+                            <img src="<%= vendor.image %>" alt="user-img" class="img-circle" onerror="this.onerror=null; this.src='/images/no_image_available.jpg';" >
+                            <a href="javascript:void(0);" class="dropdown-toggle u-dropdown text-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="badge badge-danger">
+                                    <i class="fa fa-angle-down"></i>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu animated flipInY">
+                                <!-- <li><a href="javascript:void(0);"><i class="fa fa-user"></i> Profile</a></li>
+                                <li><a href="javascript:void(0);"><i class="fa fa-inbox"></i> Inbox</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="javascript:void(0);"><i class="fa fa-cog"></i> Account Settings</a></li>
+                                <li role="separator" class="divider"></li> -->
+                                <li><a href="/vendor/profile"><i class="fa fa-user"></i> Profile</a></li>
+                                <li><a href="/vendor/changepass"><i class="fa fa-unlock-alt"></i> Change Password</a></li>
+                                <li><a href="/vendor/logout"><i class="fa fa-power-off"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                        <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"><%= vendor.storename %></a></p>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul id="side-menu">
+                        <li>
+                            <a class="waves-effect" href="/vendor" aria-expanded="false"><i class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Dashboard </span></a>
+                        </li>
+                        <li>
+                            <a class="waves-effect" aria-expanded="false"><span class="hide-menu"> Pages </span></a>
+                        </li>
+						<li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-grid fa-fw"></i> <span class="hide-menu"> Products <span class="label label-rounded label-primary pull-right"><i class="fa fa-angle-down"></i></span></span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/vendor/product">List of Products</a></li>
+                                <li><a href="/vendor/product/add">Add Product</a></li>
+                            </ul>
+                        </li>
+						<li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-grid fa-fw"></i> <span class="hide-menu"> Offer Management <span class="label label-rounded label-primary pull-right"><i class="fa fa-angle-down"></i></span></span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/vendor/offer">List offer</a></li>
+                                <li><a href="/vendor/offer/add">Add New</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/vendor/order" aria-expanded="false"><i class="icon-basket fa-fw"></i> <span class="hide-menu"> Order Management </span></a>
+                        </li>
+                        <li>
+                            <a href="/vendor/reject_order" aria-expanded="false"><i class="icon-close fa-fw"></i> <span class="hide-menu"> Reject Orders </span></a>
+                        </li>
+                        <li>
+                            <a href="#" aria-expanded="false"><i class="icon-people fa-fw"></i> <span class="hide-menu"> Commission Details </span></a>
+                        </li>
+                        <li>
+                            <a href="#" aria-expanded="false"><i class="icon-wallet fa-fw"></i> <span class="hide-menu"> Withdraw Amount </span></a>
+                        </li>
+                        <li>
+                            <a href="#" aria-expanded="false"><i class="icon-credit-card fa-fw"></i> <span class="hide-menu"> Transactions </span></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <!-- ===== Left-Sidebar-End ===== -->
+        <!-- ===== Page-Content ===== -->
+        <div class="page-wrapper">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-info">
+                            <div class="panel-wrapper collapse in" aria-expanded="true">
+                                <form onsubmit="validate()" onkeydown="return event.key != 'Enter';" method="POST" action="/vendor/profile/"
+                                    id="VendorForm" enctype="multipart/form-data">
+                                    <div class="panel-body">
+                                        <div class="form-body">
+                                            <h2 class="page-title m-b-20"> Update Profile </h2>
+                                            <div class="w-75 p-3" style="margin: auto;">
+                                                <%- messages('messages', locals) %>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Store Name</label>
+                                                        <input type="text" id="storeName" class="form-control"
+                                                            name="storename" value="<%= vendor.storename %>"
+                                                            placeholder="Store name">
+                                                        <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                            <span class="cl12" id="ErrstoreName"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Owner Name</label>
+                                                        <input type="text" id="ownerName" class="form-control"
+                                                            name="ownername" value="<%= vendor.ownername %>"
+                                                            placeholder="Owner name">
+                                                        <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                            <span class="cl12" id="ErrownerName"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Contact No</label>
+                                                        <input type="text" id="contact" class="form-control"
+                                                            name="contact" value="<%= vendor.contact %>"
+                                                            placeholder="Contact No" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                                        <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                            <span class="cl12" id="Errcontact"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Delivery Charge</label>
+                                                        <input type="text" id="deliverycharge" class="form-control"
+                                                            name="deliverycharge" value="<%= vendor.deliverycharge %>"
+                                                            placeholder="Delivery Charge"
+                                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                                        <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                            <span class="cl12" id="Errdeliverycharge"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Delivery Range</label>
+                                                        <input type="text" id="deliveryrange" class="form-control"
+                                                            name="deliveryrange" value="<%= vendor.deliveryrange %>"
+                                                            placeholder="Delivery Range"
+                                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                                        <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                            <span class="cl12" id="Errdeliveryrange"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+                                                        <input type="text" id="address" class="form-control"
+                                                            name="address" value="<%= vendor.address %>"
+                                                            placeholder="Address">
+                                                        <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                            <span class="cl12" id="Erraddress"></span>
+                                                        </div>
+                                                        <input type="hidden" name="lat" id="loc_lat" />
+                                                        <input type="hidden" name="lng" id="loc_long" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <h3 class="box-title">Upload Image</h3>
+                                                    <input type="file" id="input-file-now1" name="image" class="dropify"
+                                                        data-default-file="<%= vendor.image %>" />
+                                                    <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                        <span class="cl12" id="catErrFile1"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <a href="/vendor" class="btn btn-danger"
+                                                style="color: white;">Cancel</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const form = document.getElementById('VendorForm');
+
+            // loginform
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+            })
+            function validate() {
+                let returnVal = true;
+
+                const storeValue = document.getElementById('storeName').value.trim();
+                const ownerValue = document.getElementById('ownerName').value.trim();
+                const contactValue = document.getElementById('contact').value.trim();
+                const deliveryCValue = document.getElementById('deliverycharge').value.trim();
+                const deliveryRValue = document.getElementById('deliveryrange').value.trim();
+                const addressValue = document.getElementById('address').value.trim();
+                const filevalue1 = document.getElementById('input-file-now1').value;
+                const ext1 = filevalue1.substring(filevalue1.lastIndexOf('.') + 1);
+
+                if (storeValue == '') {
+                    setError('ErrstoreName', 'Please enter Store Name.')
+                    returnVal = false;
+                } else {
+                    removeError('ErrstoreName')
+                }
+
+                if (ownerValue == '') {
+                    setError('ErrownerName', 'Please enter Owner name.')
+                    returnVal = false;
+                } else {
+                    removeError('ErrownerName')
+                }
+
+                if (contactValue == '') {
+                    setError('Errcontact', 'Please enter Contact number.')
+                    returnVal = false;
+                } else if (contactValue.length < 10 || contactValue.length > 10) {
+                    setError('Errcontact','Please Enter 10 Digit Contact number.')
+                    returnVal = false;
+                }  else {
+                    removeError('Errcontact')
+                }
+
+                if (deliveryCValue == '') {
+                    setError('Errdeliverycharge','Please enter Delivery charge.')
+                    returnVal = false;
+                } else {
+                    removeError('Errdeliverycharge')
+                }
+
+                if (deliveryRValue == '') {
+                    setError('Errdeliveryrange','Please enter Delivery range.')
+                    returnVal = false;
+                } else {
+                    removeError('Errdeliveryrange')
+                }
+
+                if (addressValue == '') {
+                    setError('Erraddress', 'Please enter Address.')
+                    returnVal = false;
+                } else {
+                    removeError('Erraddress')
+                }
+
+                if (filevalue1 == '') {
+                    removeError('catErrFile1')
+                } else if (ext1 == 'png' || ext1 == 'jpeg' || ext1 == 'jpg') {
+                    removeError('catErrFile1')
+                } else {
+                    setError('catErrFile1', 'Wrong file type!')
+                    returnVal = false;
+                }
+
+                if (returnVal) {
+                    form.submit();
+                }
+            }
+
+            function setError(id, error) {
+                // set error msg
+                const element = document.getElementById(id);
+                element.innerHTML = '* ' + error;
+            }
+            function removeError(id) {
+                // remove error msg
+                const element = document.getElementById(id);
+                element.innerHTML = '';
+            }
+        </script>
+<footer class="footer t-a-c">
+    © <%= new Date().getFullYear() %> Organive. All rights reserved.
+</footer>
+</div>
+<!-- ===== Page-Content-End ===== -->
+</div>
+<!-- ===== Main-Wrapper-End ===== -->
+<!-- ==============================
+Required JS Files
+=============================== -->
+<!-- ===== jQuery ===== -->
+<script src="/plugins/components/jquery/dist/jquery.min.js"></script>
+<!-- ===== Bootstrap JavaScript ===== -->
+<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- ===== Slimscroll JavaScript ===== -->
+<script src="/js/jquery.slimscroll.js"></script>
+<!-- ===== Wave Effects JavaScript ===== -->
+<script src="/js/waves.js"></script>
+<!-- ===== Menu Plugin JavaScript ===== -->
+<script src="/js/sidebarmenu.js"></script>
+<!-- ===== Custom JavaScript ===== -->
+<script src="/js/custom.js"></script>
+<!-- ===== ckeditor JavaScript ===== -->
+<script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+<script src="/js/ckeditor.js"></script>
+<!-- ===== Plugin JS ===== -->
+<script src="/plugins/components/chartist-js/dist/chartist.min.js"></script>
+<script src="/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+<script src='/plugins/components/moment/moment.js'></script>
+<script src='/plugins/components/fullcalendar/fullcalendar.js'></script>
+<script src="/js/db2.js"></script>
+<!-- jQuery file upload -->
+<script src="/plugins/components/dropify/dist/js/dropify.min.js"></script>
+<script>
+$(function() {
+    // Basic
+    $('.dropify').dropify();
+    // Translated
+    $('.dropify-fr').dropify({
+        messages: {
+            default: 'Glissez-déposez un fichier ici ou cliquez',
+            replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+            remove: 'Supprimer',
+            error: 'Désolé, le fichier trop volumineux'
+        }
+    });
+    // Used events
+    var drEvent = $('#input-file-events').dropify();
+    drEvent.on('dropify.beforeClear', function(event, element) {
+        return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+    });
+    drEvent.on('dropify.afterClear', function(event, element) {
+        alert('File deleted');
+    });
+    drEvent.on('dropify.errors', function(event, element) {
+        console.log('Has Errors');
+    });
+    var drDestroy = $('#input-file-to-destroy').dropify();
+    drDestroy = drDestroy.data('dropify')
+    $('#toggleDropify').on('click', function(e) {
+        e.preventDefault();
+        if (drDestroy.isDropified()) {
+            drDestroy.destroy();
+        } else {
+            drDestroy.init();
+        }
+    })
+});
+</script>
+<!-- ===== Style Switcher JS ===== -->
+<script src="/plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
+</body>
+
+</html>

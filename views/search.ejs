@@ -1,0 +1,138 @@
+<%- include('_layouts/header') %>
+	
+	<div class="new_banner_wrapper">
+		<div class="container" id="search_div">
+			<form class="wrap-search-header flex-w" autocomplete="off">
+				<input class="plh1" id="search" type="text" name="search" value="<%= searchString %>" placeholder="Search..." style="border: 2px solid #81b03f;">
+				<button class="flex-c-m trans-04">
+					<span class="lnr lnr-magnifier"></span>
+				</button>
+				<ul id="searchResult"></ul>
+			</form>
+			<ul class="category_banner_list">
+				<% for( let i = 0; i < cats.length; i++ ) { %>
+					<li><a href="/products/<%= cats[i].id %>"><%= cats[i].name %></a>
+				<% } %>
+			</ul>
+		</div>
+	</div>
+
+	<!-- Content page -->
+	<section class="bg0 p-t-85 p-b-45">
+		<div class="container">
+			<h4 class="txt-m-101 cl3 p-b-37">
+				Search results for "<%= searchString %>"
+			</h4>
+			<% if (searchCats.length < 1 && searchProds < 1) { %>
+				<div class="row">
+					<div class="col-sm-10 col-md-8 col-lg-9 p-b-50 m-t-15">
+						<div>
+							<!-- Shop grid -->
+							<div class="shop-grid p-rl-auto">
+								<h4 class="txt-m-101 cl3 p-b-7">
+									Oops! No match found.
+								</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			<% } else { %>
+			<% if (searchCats.length > 0) { %>
+			<div class="row">
+				<div class="col-sm-10 col-md-8 col-lg-9 p-b-50 m-t-15">
+					<div>
+						<!-- Shop grid -->
+						<div class="shop-grid">
+							<h4 class="txt-m-101 cl3 p-b-7">
+								Categories
+							</h4>
+							<p class="p-b-15"><%= searchCats.length %> Categories found</p>
+							<div class="row">
+								<!-- - -->
+								<% for( let i = 0; i < searchCats.length; i++ ) { %>
+									<div class="col-sm-6 col-lg-4 p-b-30">
+										<a href="/products/<%= searchCats[i].category %>/<%= searchCats[i].id %>" class="txt-m-103 cl3 txt-center hov-cl10 trans-04 js-name-b1">
+											<div class="block1">
+												<div class="block1-bg wrap-pic-w bo-all-1 bocl12 hov3 trans-04">
+													<div>
+														<img src="<%= searchCats[i].image %>" alt="IMG" width="230px" style="margin: 20px;" onerror="this.onerror=null; this.src='/images/no_image_available_3.jpg';">
+													</div>
+		
+													<div class="block1-content flex-col-c-m p-b-20">
+														<%= searchCats[i].name %>
+													</div>
+												</div>
+											</div>
+										</a>
+									</div>
+								<% } %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<% } %>
+			<% if (searchProds.length > 0) { %>
+			<div class="shop-grid">
+				<h4 class="txt-m-101 cl3 p-b-7">
+					Products
+				</h4>
+				<p class="p-b-15"><%= searchProds.length %> Products found</p>
+				<div class="row products">
+					<!-- - -->
+					<% for( let i = 0; i < searchProds.length; i++ ) { %>
+						<!-- <div class="col-sm-6 col-lg-4 p-b-30"> -->
+						<div class="col-sm-6 col-md-4 col-lg-3 p-b-30 single-prod">
+							<div class="block1">
+								<div class="block1-bg wrap-pic-w bo-all-1 bocl12 hov3 trans-04">
+									<img src="<%= searchProds[i].image %>" class="product_img_set" alt="IMG" width="200px" onerror="this.onerror=null; this.src='/images/no_image_available_3.jpg';">
+
+									<div class="block1-content flex-col-c-m p-b-46">
+										<a href="/products/detail/<%= searchProds[i].id %>" class="txt-m-103 cl3 txt-center hov-cl10 trans-04 js-name-b1">
+											<%= searchProds[i].productname %>
+										</a>
+
+										<span class="block1-content-more txt-m-104 cl9 p-t-21 trans-04">
+											<%= searchProds[i].totalprice %> &#8377;
+										</span>
+										<input type="text" id="id" value="<%= searchProds[i].id %>" hidden>
+										<div class="block1-wrap-icon flex-c-m flex-w trans-05">
+											<% if (searchProds[i].qtyweight < 1 ) { %>
+												<div class="outofstock">Out of stock</div>
+											<% } else { %>
+												<a href="/products/detail/<%= searchProds[i].id %>" class="block1-icon flex-c-m wrap-pic-max-w">
+													<img src="/images/icons/icon-view.png" alt="ICON">
+												</a>
+												<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addcart-b1">
+													<img src="/images/icons/icon-cart.png" alt="ICON">
+												</a>
+												<% if (user && user.wishlist.includes(searchProds[i].id)) { %>
+													<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addedwish-b1">
+														<img class="icon-addedwish-b1" src="/images/icons/icon-heart2.png" alt="ICON">
+													</a>
+													<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addwish-b1" hidden>
+														<img class="icon-addwish-b1" src="/images/icons/icon-heart.png" alt="ICON">
+													</a>
+												<% } else { %>
+													<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addedwish-b1" hidden>
+														<img class="icon-addedwish-b1" src="/images/icons/icon-heart2.png" alt="ICON">
+													</a>
+													<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addwish-b1">
+														<img class="icon-addwish-b1" src="/images/icons/icon-heart.png" alt="ICON">
+													</a>
+												<% } %>
+											<% } %>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					<% } %>
+				</div>
+			</div>
+			<% } %>
+			<% } %>
+		</div>
+	</section>
+	
+<%- include('_layouts/footer') %>

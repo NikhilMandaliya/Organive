@@ -1,0 +1,103 @@
+<%-include('../_layouts/admin_header')-%>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-wrapper collapse in" aria-expanded="true">
+                    <div class="panel-body">
+                        <form onsubmit="validate()" method="POST" action="/admin/unit/add" id="addUnitForm">
+                            <div class="form-body">
+                                <h2 class="page-title m-b-20"> Add Unit </h2>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Unit Name</label>
+                                            <input type="text" id="UnitName" class="form-control" name="name" placeholder="Unit name">
+                                            <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                <span class="cl12" id="UnitErrName"></span>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <a href="/admin/unit" class="btn btn-danger" style="color: white;">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const form = document.getElementById('addUnitForm');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+    })
+    function validate(){
+        let returnVal = true;
+
+        const nameValue = document.getElementById('UnitName').value.trim();
+
+        if (nameValue == '') {
+            setError('UnitErrName','Please enter Unit Name.')
+            returnVal = false;
+        }else {
+            removeError('UnitErrName')
+        }
+        
+        if (returnVal) {
+            form.submit();
+        }
+    }
+
+    function setError(id, error) {
+        // set error msg
+        const element = document.getElementById(id);
+        element.innerHTML = '* ' + error;
+    }
+    function removeError(id) {
+        // remove error msg
+        const element = document.getElementById(id);
+        element.innerHTML = '';
+    }
+</script>
+<footer class="footer t-a-c">
+    © <%= new Date().getFullYear() %> Organive. All rights reserved.
+</footer>
+</div>
+<!-- ===== Page-Content-End ===== -->
+</div>
+<!-- ===== Main-Wrapper-End ===== -->
+<!-- ==============================
+Required JS Files
+=============================== -->
+<!-- ===== jQuery ===== -->
+<script src="/plugins/components/jquery/dist/jquery.min.js"></script>
+<!-- ===== Bootstrap JavaScript ===== -->
+<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- ===== Slimscroll JavaScript ===== -->
+<script src="/js/jquery.slimscroll.js"></script>
+<!-- ===== Wave Effects JavaScript ===== -->
+<script src="/js/waves.js"></script>
+<!-- ===== Menu Plugin JavaScript ===== -->
+<script src="/js/sidebarmenu.js"></script>
+<!-- ===== Custom JavaScript ===== -->
+<script src="/js/custom.js"></script>
+<!-- ===== ckeditor JavaScript ===== -->
+<script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+<script src="/js/ckeditor.js"></script>
+<!-- ===== Plugin JS ===== -->
+<script src="/plugins/components/chartist-js/dist/chartist.min.js"></script>
+<script src="/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+<script src='/plugins/components/moment/moment.js'></script>
+<script src='/plugins/components/fullcalendar/fullcalendar.js'></script>
+<script src="/js/db2.js"></script>
+<!-- ===== Style Switcher JS ===== -->
+<script src="/plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
+</body>
+
+</html>

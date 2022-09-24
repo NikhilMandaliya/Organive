@@ -1,0 +1,172 @@
+<%- include('_layouts/header') %>
+
+	<!-- Title page -->
+	<section class="how-overlay2 bg-img1" style="background-image: url(/images/bg-07.jpg);">
+		<div class="container">
+			<div class="txt-center p-t-160 p-b-165">
+				<h2 class="txt-l-101 cl0 txt-center p-b-14 respon1">
+					shop
+				</h2>
+
+				<span class="txt-m-201 cl0 flex-c-m flex-w">
+					<a href="/" class="txt-m-201 cl0 hov-cl10 trans-04 m-r-6">
+						Home
+					</a>
+
+					<a href="/products/all" class="txt-m-201 cl0 hov-cl10 trans-04 m-r-6">
+						/ Products
+					</a>
+
+					<span>
+						/ Products
+					</span>
+				</span>
+			</div>
+		</div>
+	</section>
+	
+	<!-- Product detail -->
+	<section class="sec-product-detail bg0 p-t-105 p-b-70">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7 col-lg-6">
+					<div class="m-r--30 m-r-0-lg">
+						<!-- Slide 100 -->
+						<div id="slide100-01">
+							<div class="wrap-main-pic-100 bo-all-1 bocl12 pos-relative">
+								<div class="main-frame">
+									<div class="wrap-main-pic">
+										<div class="main-pic">
+											<img src="<%= product.image %>" alt="IMG-SLIDE">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-5 col-lg-6">
+					<div class="p-l-70 p-t-35 p-l-0-lg">
+						<h4 class="js-name1 txt-l-104 cl3 p-b-16">
+							<%= product.productname %>
+						</h4>
+
+						<span class="txt-m-117 cl9">
+							&#8377; <%= product.totalprice %>
+						</span>
+						
+						<p class="txt-s-101 cl6">
+							<%= product.description %>
+						</p>
+
+						<div class="flex-w flex-m p-t-55 p-b-30">
+							<input type="text" id="id" value="<%= product.id %>" class="<%= product.id %>" hidden>
+							<% if (product.qtyweight < 1) { %>
+								<div class="outofstock" style="margin: 0;">Out of stock</div>
+							<% } else { %>
+								<a href="javascript:void(0)">
+									<button class="flex-c-m txt-s-103 cl0 bg10 size-a-2 hov-btn2 trans-04 m-b-30 js-addcart-b1">
+										Add to cart
+									</button>
+								</a>
+							<% } %>
+						</div>
+
+						<div class="txt-s-107 p-b-6">
+							<span class="cl6">
+								Category:
+							</span>
+
+							<span class="cl9">
+								<a href="/products/<%= product.category %>" style="color: inherit;"> &nbsp;<%= cat %></a>
+							</span>
+						</div>
+						
+						<div class="txt-s-107 p-b-6">
+							<span class="cl6">
+								Subcategory:
+							</span>
+
+							<span class="cl9">
+								<a href="/products/<%= product.category %>/<%= product.subcategory %>" style="color: inherit;"> &nbsp;<%= subcat %></a>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Tab01 -->
+			<div class="tab02 p-t-80">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#info" role="tab">Additional Information</a>
+					</li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<!-- - -->
+					<div class="tab-pane fade show active" id="description" role="tabpanel">
+						<div class="p-t-30">
+							<p class="txt-s-112 cl9">
+								<%= product.description %>
+							</p>
+						</div>
+					</div>
+
+					<!-- - -->
+					<div class="tab-pane fade" id="info" role="tabpanel">
+						<ul class="p-t-21">
+							<li class="txt-s-101 flex-w how-bor2 p-tb-14">
+								<span class="cl6 size-w-54">
+									title
+								</span>
+
+								<span class="cl9 size-w-55">
+									<%= product.title %>
+								</span>
+							</li>
+							<li class="txt-s-101 flex-w how-bor2 p-tb-14">
+								<span class="cl6 size-w-54">
+									Company
+								</span>
+
+								<span class="cl9 size-w-55">
+									<%= product.company %>
+								</span>
+							</li>
+
+							<li class="txt-s-101 flex-w how-bor2 p-tb-14">
+								<span class="cl6 size-w-54">
+									Type
+								</span>
+
+								<span class="cl9 size-w-55">
+									<%= product.type %>
+								</span>
+							</li>
+
+							<li class="txt-s-101 flex-w how-bor2 p-tb-14">
+								<span class="cl6 size-w-54">
+									Weight
+								</span>
+
+								<span class="cl9 size-w-55">
+									<%= product.productweight %> <%= unit %> 
+								</span>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+<%- include('_layouts/footer') %>

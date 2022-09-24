@@ -1,0 +1,89 @@
+<%- include('../_layouts/admin_header') %>
+
+<div class="container-fluid">
+    <!-- /.row -->
+    <div class="row">
+        <!-- <div class="col-md-8 col-sm-7"> -->
+        <div class="col-md-12 col-sm-12">
+            <!-- <div class="panel panel-info"> -->
+                <!-- <div class="panel-wrapper collapse in" aria-expanded="true"> -->
+                <div class="white-box">
+                    <div class="panel-body">
+                        <h3 class="page-title">Order Detail</h3>
+                        <hr>
+                        <div class="table-responsive">
+                            <table class="table product-overview">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Product name</th>
+                                        <th>Price</th>
+                                        <th>Weight</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for( let i = 0; i < updated.length; i++ ) { %>
+                                        <tr>
+                                            <td><img src="<%= updated[i].image %>" alt="product-img" width="80" onerror="this.onerror=null; this.src='/images/no_image_available_3.jpg';"></td>
+                                            <td>
+                                                <h5 class="font-500"><%= updated[i].name %></h5>
+                                            </td>
+                                            <td>&#8377; <%= updated[i].price %></td>
+                                            <td>
+                                                <%= updated[i].weight %> <%= updated[i].unit %>
+                                            </td>
+                                            <td>
+                                                <%= updated[i].quantity %>
+                                            </td>
+                                            <td class="font-500">&#8377; <%= updated[i].price * updated[i].quantity %></td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <a href="/admin/order" style="color: black;">
+                                <button class="btn btn-default btn-outline"><i class="fa fa-arrow-left"></i> Orders</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <!-- </div> -->
+        </div>
+        <!-- <div class="col-md-4 col-sm-5">
+            <div class="white-box pro-cart">
+                <h3 class="box-title">Cart Summary</h3>
+                <hr>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Total</td>
+                                <td>$355</td>
+                            </tr>
+                            <tr>
+                                <td>Coupan Discount</td>
+                                <td>-$55</td>
+                            </tr>
+                            <tr>
+                                <td>Delivery Charges</td>
+                                <td>$25</td>
+                            </tr>
+                            <tr>
+                                <td>Tax</td>
+                                <td>$10</td>
+                            </tr>
+                            <tr>
+                                <td>Payable Amount</td>
+                                <td>$335</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+<%- include('../_layouts/admin_footer') %>

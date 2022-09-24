@@ -1,0 +1,89 @@
+<%- include('_layouts/header') %>
+	
+	<!-- Title page -->
+	<section class="how-overlay2 bg-img1" style="background-image: url(/images/bg-07.jpg);">
+		<div class="container">
+			<div class="txt-center p-t-160 p-b-165">
+				<h2 class="txt-l-101 cl0 txt-center p-b-14 respon1">
+					shop
+				</h2>
+
+				<span class="txt-m-201 cl0 flex-c-m flex-w">
+					<a href="/" class="txt-m-201 cl0 hov-cl10 trans-04 m-r-6">
+						Home
+					</a>
+
+					<span>
+						/ Products
+					</span>
+				</span>
+			</div>
+		</div>
+	</section>
+	
+	<!-- Content page -->
+	<section class="bg0 p-t-85 p-b-45">
+		<div class="container">
+			
+			<div class="shop-grid">
+				<h4 class="txt-m-101 cl3 p-b-7">
+					Products
+				</h4>
+				<p class="p-b-15"><%= prods.length %> Products <%= ProdOf %></p>
+				<div class="row">
+					<!-- - -->
+					<% for( let i = 0; i < prods.length; i++ ) { %>
+						<!-- <div class="col-sm-6 col-lg-4 p-b-30"> -->
+						<div class="col-sm-6 col-md-4 col-lg-3 p-b-30">
+							<div class="block1">
+								<div class="block1-bg wrap-pic-w bo-all-1 bocl12 hov3 trans-04">
+									<img src="<%= prods[i].image %>" class="product_img_set" alt="IMG" width="200px" onerror="this.onerror=null; this.src='/images/no_image_available_3.jpg';" >
+
+									
+									<div class="block1-content flex-col-c-m p-b-46">
+										<a href="/products/detail/<%= prods[i].id %>" class="txt-m-103 cl3 txt-center hov-cl10 trans-04 js-name-b1">
+											<%= prods[i].productname %>
+										</a>
+
+										<span class="block1-content-more txt-m-104 cl9 p-t-21 trans-04">
+											<%= prods[i].totalprice %> &#8377;
+										</span>
+										<input type="text" id="id" value="<%= prods[i].id %>" class="<%= prods[i].id %>" hidden>
+										<div class="block1-wrap-icon flex-c-m flex-w trans-05">
+											<% if (prods[i].qtyweight < 1 ) { %>
+												<div class="outofstock">Out of stock</div>
+											<% } else { %>
+												<a href="/products/detail/<%= prods[i].id %>" class="block1-icon flex-c-m wrap-pic-max-w">
+													<img src="/images/icons/icon-view.png" alt="ICON">
+												</a>
+												<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addcart-b1">
+													<img src="/images/icons/icon-cart.png" alt="ICON">
+												</a>
+												<% if (user && user.wishlist.includes(prods[i].id)) { %>
+													<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addedwish-b1">
+														<img class="icon-addedwish-b1" src="/images/icons/icon-heart2.png" alt="ICON">
+													</a>
+													<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addwish-b1" hidden>
+														<img class="icon-addwish-b1" src="/images/icons/icon-heart.png" alt="ICON">
+													</a>
+												<% } else { %>
+													<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addedwish-b1" hidden>
+														<img class="icon-addedwish-b1" src="/images/icons/icon-heart2.png" alt="ICON">
+													</a>
+													<a href="javascript:void(0)" class="block1-icon flex-c-m wrap-pic-max-w js-addwish-b1">
+														<img class="icon-addwish-b1" src="/images/icons/icon-heart.png" alt="ICON">
+													</a>
+												<% } %>
+											<% } %>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+<%- include('_layouts/footer') %>

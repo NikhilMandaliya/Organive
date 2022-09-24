@@ -1,0 +1,164 @@
+<%-include('../_layouts/admin_header')-%>
+
+            <div class="container-fluid">
+                <!-- /row -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="white-box">
+                            <a class="btn btn-primary pull-right" href="/admin/vendor/add">Add Vendor</a>
+                            <h3 class="page-title">Vendor Details</h3>
+                            <hr>
+                            <!-- messages -->
+                            <div class="w-75 p-3" style="margin: auto;">
+                                <%- messages('messages', locals) %>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="myTable" class="table table-striped color-table primary-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr No.</th>
+                                            <th>Store Name</th>
+                                            <th>Contact No</th>
+                                            <th>Owner Name</th>
+                                            <th>Email</th>
+                                            <th>Delivery range (km)</th>
+                                            <th>Address</th>
+                                            <th>Image</th>
+                                            <th>ID Proof</th>
+                                            <th>Address Proof</th>
+                                            <th>#</th>
+                                            <th>Action</th>
+                                            <th>Block</th>
+                                            <th>List of Products</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for( let i = 0; i < vendors.length; i++ ) { %>
+                                            <tr>
+                                                <td><%= i+1 %></td>
+                                                <td><%= vendors[i].storename %></td>
+                                                <td><%= vendors[i].contact %></td>
+                                                <td><%= vendors[i].ownername %></td>
+                                                <td><%= vendors[i].email %></td>
+                                                <td><%= vendors[i].deliveryrange %></td>
+                                                <td><%= vendors[i].address %></td>
+                                                <td><img src="<%= vendors[i].image %>" alt="<%= vendors[i].ownername %>" width="100" height="100" onerror="this.onerror=null; this.src='/images/no_image_available.jpg';"></td>
+                                                <td><img src="<%= vendors[i].idimage %>" alt="<%= vendors[i].ownername %>" width="100" height="100" onerror="this.onerror=null; this.src='/images/no_image_available.jpg';"></td>
+                                                <td><img src="<%= vendors[i].addressimage %>" alt="<%= vendors[i].ownername %>" width="100" height="100" onerror="this.onerror=null; this.src='/images/no_image_available.jpg';"></td>
+                                                <td>
+                                                    <a href="/admin/vendor/edit/<%= vendors[i].id %>"><i class="icon-pencil" style="font-size: 120%;"></i></a>
+                                                </td>
+                                                <td>
+                                                    <% if (!vendors[i].status) { %>
+                                                        <div style="display: flex; flex-direction: row;">
+                                                            <a href="/admin/vendor/<%= vendors[i].id %>/approve" class="btn btn-success m-r-5">Approve</a>
+                                                            <a href="/admin/vendor/<%= vendors[i].id %>/reject" class="btn btn-danger" onclick="return confirm('Are you sure you want to Reject this vendor?')">Reject</a>
+                                                        </div>
+                                                    <% } else { %>
+                                                        <!-- <div style="width: max-content; margin-top: 10px;">
+                                                            <span style="padding: 5px 10px; background: #ADD8E6; color: #0283cc; border-radius: 5px; font-size: 14px;">Approved</span>
+                                                        </div> -->
+                                                        <%= vendors[i].status %>
+                                                    <% } %>
+                                                </td>
+                                                <td>
+                                                    <% if (vendors[i].blocked) { %>
+                                                        <a href="/admin/vendor/unblock/<%= vendors[i].id %>" onclick="return confirm('Are you sure want to unblock this vendor?');"><button class="btn btn-outline btn-rounded btn-success">Unblock</button></a>
+                                                    <% } else { %>
+                                                        <a href="/admin/vendor/block/<%= vendors[i].id %>" onclick="return confirm('Are you sure want to block this vendor?');"><button class="btn btn-outline btn-rounded btn-danger">Block</button></a>
+                                                    <% } %>
+                                                </td>
+                                                <td>
+                                                    <a href="/admin/vendor/products/<%= vendors[i].id %>"><i class="icon-eye" style="font-size: 120%;"></i></a>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+            <footer class="footer t-a-c">
+                © <%= new Date().getFullYear() %> Organive. All rights reserved.
+            </footer>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="/plugins/components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="/js/sidebarmenu.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="/js/waves.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="/js/custom.js"></script>
+    <script src="/plugins/components/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <!-- end - This is for export functionality only -->
+    <script>
+    $(function() {
+        $('#myTable').DataTable();
+
+        var table = $('#example').DataTable({
+            "columnDefs": [{
+                "visible": false,
+                "targets": 2
+            }],
+            "order": [
+                [2, 'asc']
+            ],
+            "displayLength": 25,
+            "drawCallback": function(settings) {
+                var api = this.api();
+                var rows = api.rows({
+                    page: 'current'
+                }).nodes();
+                var last = null;
+                api.column(2, {
+                    page: 'current'
+                }).data().each(function(group, i) {
+                    if (last !== group) {
+                        $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
+                        last = group;
+                    }
+                });
+            }
+        });
+        // Order by the grouping
+        $('#example tbody').on('click', 'tr.group', function() {
+            var currentOrder = table.order()[0];
+            if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                table.order([2, 'desc']).draw();
+            } else {
+                table.order([2, 'asc']).draw();
+            }
+        });
+    });
+    $('#example23').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+    </script>
+    <!--Style Switcher -->
+    <script src="/plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
+</body>
+
+</html>

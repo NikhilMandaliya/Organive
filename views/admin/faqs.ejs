@@ -1,0 +1,21 @@
+<%-include('../_layouts/admin_header')-%>
+
+<div class="col-sm-12" style="margin-top: 2%;">
+    <!-- errors -->
+	<div class="w-75 p-3" style="margin: auto;">
+		<%- messages('messages', locals) %>
+	</div>
+    <div class="white-box">
+        <h2 class="page-tittle"> <%= title %> </h2>
+        <hr>
+        <form method="POST" action="/admin/faqs">
+            <div class="form-group">
+                <label for="">Content</label>
+                <textarea name="content" class="form-control" id="ta" cols="30" rows="10" placeholder="content"><%= content %></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+<%-include('../_layouts/admin_footer')-%>

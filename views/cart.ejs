@@ -1,0 +1,143 @@
+<%- include('_layouts/header') %>
+	
+	<!-- Title page -->
+	<section class="how-overlay2 bg-img1" style="background-image: url(/images/bg-07.jpg);">
+		<div class="container">
+			<div class="txt-center p-t-160 p-b-165">
+				<h2 class="txt-l-101 cl0 txt-center p-b-14 respon1">
+					Cart
+				</h2>
+
+				<span class="txt-m-201 cl0 flex-c-m flex-w">
+					<a href="/" class="txt-m-201 cl0 hov-cl10 trans-04 m-r-6">
+						Home
+					</a>
+
+					<span>
+						/ Cart
+					</span>
+				</span>
+			</div>
+		</div>
+	</section>
+
+	<div class="w-75 p-3" style="margin: auto;">
+		<%- messages('messages', locals) %>
+	</div>
+	
+	<!-- content page -->
+	<div class="bg0 p-tb-100">
+		<div class="container">
+			<!-- <form> -->
+				<div class="wrap-table-shopping-cart">
+					<table class="table-shopping-cart">
+						<tr class="table_head bg12">
+							<th class="column-1 p-l-30">Product</th>
+							<th class="column-2">Price</th>
+							<th class="column-3">Quantity</th>
+							<th class="column-4">Total</th>
+						</tr>
+						
+						<% for( let i = 0; i < myCart.length; i++ ) { %>
+							<tr class="table_row" id="<%= myCart[i].id %>">
+								<td class="column-1">
+									<div class="flex-w flex-m">
+										<div class="wrap-pic-w size-w-50 bo-all-1 bocl12 m-r-30">
+											<img src="<%= myCart[i].image %>" alt="IMG" onerror="this.onerror=null; this.src='/images/no_image_available_3.jpg';" >
+										</div>
+	
+										<span>
+											<a href="/products/detail/<%= myCart[i].id %>" class="txt-m-103 cl3 txt-center hov-cl10 trans-04"><%= myCart[i].productname %></a>
+										</span>
+									</div>
+								</td>
+								<td class="column-2">
+									&#8377; <span id="price"><%= myCart[i].totalprice %></span>
+								</td>
+								<td class="column-3">
+									<div class="wrap-num-product flex-w flex-m bg12 p-rl-10">
+										<input type="text" id="id" value="<%= myCart[i].id %>" hidden>
+										<div class="btn-num-product-down flex-c-m fs-29"></div>
+										<input class="txt-m-102 cl6 txt-center num-product" id="qty" type="number" name="num-product1" value="<%= myCart[i].quantity %>" readonly>
+										<div class="btn-num-product-up flex-c-m fs-16"></div>
+									</div>
+									<span id="stockErr" style="color: red;" hidden>Sorry! We have limited stock.</span>
+								</td>
+								<td class="column-4">
+									<div class="flex-w flex-sb-m">
+										<span class="total">
+											&#8377; <%= myCart[i].totalprice * myCart[i].quantity %>
+										</span>
+	
+										<a href="/cart/update/<%= myCart[i].id %>?action=clear">
+											<div class="fs-15 hov-cl10 pointer">
+												<span class="lnr lnr-cross"></span>
+											</div>
+										</a>
+									</div>
+								</td>
+							</tr>
+						<% } %>
+						<tr class="table_row" id="empty" <%= myCart.length > 0 ? 'hidden' : '' %>>
+							<td class="column-1" colspan="4">
+								<div class="flex-w flex-m">
+									Cart is empty.
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="flex-w flex-sb-m p-t-30">
+					<div class="flex-w flex-m m-r-50 m-tb-10">
+						<% if (myCart.length > 0) { %>
+							<a href="/cart/clear" id="clearCart" onclick="return confirm('Are you sure?')">
+								<button class="flex-c-m txt-s-105 cl0 bg10 size-a-33 hov-btn2 trans-04 pointer p-rl-10 m-tb-10">
+									Clear CART
+								</button>
+							</a>
+						<% } %>
+					</div>
+	
+					<a href="/products/all" class="flex-c-m txt-s-103 cl0 bg10 size-h-9 hov-btn2 trans-04 pointer p-rl-29 m-tb-10">
+						Continue shopping
+					</a>
+				</div>
+
+				<div class="flex-col-l p-t-68">
+					<span class="txt-m-123 cl3 p-b-18">
+						CART TOTALS
+					</span>
+					
+					<!-- <div class="flex-w flex-m bo-b-1 bocl15 w-full p-tb-18">
+						<span class="size-w-58 txt-m-109 cl3">
+							Subtotal
+						</span>
+
+						<span class="size-w-59 txt-m-104 cl6">
+							48$
+						</span>
+					</div> -->
+
+					<div class="flex-w flex-m bo-b-1 bocl15 w-full p-tb-18">
+						<span class="size-w-58 txt-m-109 cl3">
+							Total
+						</span>
+
+						<span class="size-w-59 txt-m-104 cl10" id="grandTotal"></span>
+					</div>
+
+					<% if ( myCart.length > 0 ) { %>
+						<a href="/checkout" id="checkoutBtn">
+							<button class="flex-c-m txt-s-105 cl0 bg10 size-a-34 hov-btn2 trans-04 p-rl-10 m-t-43">
+								proceed to checkout
+							</button>
+						</a>
+					<% } %>
+				</div>
+			<!-- </form> -->
+		</div>
+	</div>
+	<script src="/js/setGrandTotal.js"></script>
+
+<%- include('_layouts/footer') %>

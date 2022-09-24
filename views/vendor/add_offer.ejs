@@ -1,0 +1,384 @@
+<%-include('../_layouts/vendor_header')-%>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-info">
+                    <div class="panel-wrapper collapse in" aria-expanded="true">
+                        <form  method="POST" onsubmit="validate()" action="/vendor/offer/add" id="Form" enctype="multipart/form-data">
+                            <div class="panel-body">
+                                <div class="form-body">
+                                    <h2 class="page-title m-b-20"> Add Offer</h2>
+                                    <hr>
+                                    <!-- errors -->
+                                    <% if(typeof alert != 'undefined') { %>
+                                        <div class="w-75 p-3" style="margin: auto;">
+                                            <% alert.forEach(function(error) { %>
+                                                <div class="alert alert-danger alert-dismissible show" role="alert">
+                                                    <%= error.msg %>
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">×</span>
+                                                    </button>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+                                        <hr>
+                                    <% } %>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Category</label>
+                                                <select id="selectCat" class="selectpicker form-control" name="category" data-style="form-control">
+                                                    <option>Select Category</option>
+                                                    <% for( let i = 0; i < cats.length; i++ ) { %>
+                                                        <option value="<%= cats[i]._id %>"><%= cats[i].name %></option>
+                                                    <% } %>
+                                                </select>
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="catErrName"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Sub Category</label>
+                                                <select id="selectSubCat" class="selectpicker form-control" name="subCategory" data-style="form-control">
+                                                    <option>Select Sub Category</option>
+                                                </select>
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="subcatErrName"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Company Name</label>
+                                                <input type="text" id="companyName" class="form-control" name="company" placeholder="Company Name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Product Name</label>
+                                                <input type="text" id="productName" class="form-control" name="productName" placeholder="Product Name">
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="productNameErr"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Type</label>
+                                                <select name="type" id="type" class="selectpicker form-control">
+                                                    <option>Select Type</option>
+                                                    <option value="Vegetarian">Vegetarian</option>
+                                                    <option value="Non-Vegetarian">Non-Vegetarian</option>
+                                                    <option value="Non of these">Non of these</option>
+                                                </select>
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="typeErr"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Product Weight</label>
+                                                <input type="text" class="form-control" name="productWeight" placeholder="Product Weight" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Unit</label>
+                                                <select class="selectpicker form-control" name="unit" data-style="form-control">
+                                                    <option>Select Unit</option>
+                                                    <% for( let i = 0; i < units.length; i++ ) { %>
+                                                        <option value="<%= units[i]._id %>"><%= units[i].name %></option>
+                                                    <% } %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Cost Price</label>
+                                                <input type="text" id="cost" class="form-control" name="costPrice" placeholder="Cost Price" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="costErr"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Sale Price</label>
+                                                <input type="text" id="sale" class="form-control" name="salePrice" placeholder="Sale Price" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" onkeyup="SetTotalPrice()">
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="saleErr"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Discount (%)</label>
+                                                <input type="text" id="disc" class="form-control" name="discount" placeholder="Discount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" onkeyup="SetTotalPrice()">
+                                                <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                                    <span class="cl12" id="discErr"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Total Price</label>
+                                                <input type="text" id="total" class="form-control" name="totalPrice" placeholder="Total Price" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h3 class="box-title">Upload image</h3>
+                                        <input type="file" id="input-file-now" class="dropify" name="image" required/>
+                                        <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                            <span class="cl12" id="catErrFile"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Title</label>
+                                                <input type="text" class="form-control" name="title" placeholder="Title">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Description</label>
+                                                <input type="text" class="form-control" name="description" placeholder="Description">
+                                            </div>
+                                        </div>
+                                      
+                                    </div>
+
+                                    <input name="nondisc" id="nondisc" hidden>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <a href="/vendor/offer" class="btn btn-danger" style="color: white;">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="hidden" cols="30" rows="10" value="<%= JSON.stringify(array) %>" hidden></input>
+<input id="cats" cols="30" rows="10" value="<%= JSON.stringify(cats) %>" hidden></input>
+<script>
+    const catValue = document.getElementById('selectCat').value;
+    const subcat = document.getElementById('selectSubCat');
+    const data = JSON.parse(document.getElementById('hidden').value);
+    const cats = JSON.parse(document.getElementById('cats').value);
+    let tax = 0;
+    let discount = 0;
+
+    function SetTotalPrice(){
+        if (document.getElementById('disc').value == '') {
+            discount = 0;
+        } else {
+            discount = document.getElementById('disc').value;
+        }
+        document.getElementById("nondisc").value = (document.getElementById("sale").value * (100+tax) / 100).toFixed(2);
+        document.getElementById("total").value = (document.getElementById("sale").value * (100+tax) * (100-discount) / 10000 ).toFixed(2);
+    }
+    
+    document.getElementById('selectCat').addEventListener('change', function() {
+        const catid = this.value;
+        if (this.value == 'Select Category') {
+            tax = 0;
+            subcat.innerHTML = "<option>Select Sub Category</option>"
+        } else {
+            subcat.innerHTML = "<option>Select Sub Category</option>"
+            const subs = data[catid];
+            for (let i = 0; i < subs.length; i++) {
+                let z = document.createElement('option');
+                z.value = `${subs[i]._id}`;
+                z.innerHTML = `${subs[i].name}`;
+                subcat.appendChild(z)
+            }
+            let result = cats.find(o => o._id == catid);
+            tax = result.tax;
+        }
+        SetTotalPrice()
+    });
+
+    const form = document.getElementById('Form');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+    })
+    function validate(){
+        let returnVal = true;
+
+        const catValue = document.getElementById('selectCat').value.trim();
+        const subcatValue = document.getElementById('selectSubCat').value.trim();
+        const productValue = document.getElementById('productName').value.trim();
+        const typeValue = document.getElementById('type').value.trim();
+        const costValue = document.getElementById('cost').value.trim();
+        const saleValue = document.getElementById('sale').value.trim();
+        const discValue = document.getElementById('disc').value.trim();
+        const filevalue = document.getElementById('input-file-now').value;
+        const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
+        
+        if (catValue == 'Select Category') {
+            setError('catErrName','Please select Category.')
+            returnVal = false;
+        } else {
+            removeError('catErrName')
+        }
+
+        if (subcatValue == 'Select Sub Category') {
+            setError('subcatErrName','Please select Sub Category.')
+            returnVal = false;
+        } else {
+            removeError('subcatErrName')
+        }
+
+        if (productValue == '') {
+            setError('productNameErr','Please enter Product Name.')
+            returnVal = false;
+        } else {
+            removeError('productNameErr')
+        }
+
+        if (typeValue == '') {
+            setError('typeErr','Please select Type.')
+            returnVal = false;
+        } else if (typeValue == 'Select Type') {
+            setError('typeErr','Please select Type.')
+            returnVal = false;
+        } else {
+            removeError('typeErr')
+        }
+
+        if (costValue == '') {
+            setError('costErr','Please enter Cost Price.')
+            returnVal = false;
+        } else {
+            removeError('costErr')
+        }
+
+        if (saleValue == '') {
+            setError('saleErr','Please enter Sale Price.')
+            returnVal = false;
+        } else {
+            removeError('saleErr')
+        }
+
+        if (discValue == '') {
+            setError('discErr','Please enter Discount.')
+            returnVal = false;
+        } else if (parseFloat(discValue) >= 100) {
+            setError('discErr','Discount should be less than 100.')
+            returnVal = false;
+        } else {
+            removeError('discErr')
+        }
+
+        if (ext=='png' || ext=='jpeg' || ext=='jpg') {
+            removeError('catErrFile')
+        } else {
+            setError('catErrFile','Wrong file type!')
+            returnVal = false;
+        }
+        
+        if (returnVal) {
+            form.submit();
+        }
+    }
+
+    function setError(id, error) {
+        // set error msg
+        const element = document.getElementById(id);
+        element.innerHTML = '* ' + error;
+    }
+    function removeError(id) {
+        // remove error msg
+        const element = document.getElementById(id);
+        element.innerHTML = '';
+    }
+</script>
+<footer class="footer t-a-c">
+    © <%= new Date().getFullYear() %> Organive. All rights reserved.
+</footer>
+</div>
+<!-- ===== Page-Content-End ===== -->
+</div>
+<!-- ===== Main-Wrapper-End ===== -->
+<!-- ==============================
+Required JS Files
+=============================== -->
+<!-- ===== jQuery ===== -->
+<script src="/plugins/components/jquery/dist/jquery.min.js"></script>
+<!-- ===== Bootstrap JavaScript ===== -->
+<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- ===== Slimscroll JavaScript ===== -->
+<script src="/js/jquery.slimscroll.js"></script>
+<!-- ===== Wave Effects JavaScript ===== -->
+<script src="/js/waves.js"></script>
+<!-- ===== Menu Plugin JavaScript ===== -->
+<script src="/js/sidebarmenu.js"></script>
+<!-- ===== Custom JavaScript ===== -->
+<script src="/js/custom.js"></script>
+<!-- ===== ckeditor JavaScript ===== -->
+<script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+<script src="/js/ckeditor.js"></script>
+<!-- ===== Plugin JS ===== -->
+<script src="/plugins/components/chartist-js/dist/chartist.min.js"></script>
+<script src="/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+<script src='/plugins/components/moment/moment.js'></script>
+<script src='/plugins/components/fullcalendar/fullcalendar.js'></script>
+<script src="/js/db2.js"></script>
+<!-- jQuery file upload -->
+<script src="/plugins/components/dropify/dist/js/dropify.min.js"></script>
+<script>
+$(function() {
+    // Basic
+    $('.dropify').dropify();
+    // Translated
+    $('.dropify-fr').dropify({
+        messages: {
+            default: 'Glissez-déposez un fichier ici ou cliquez',
+            replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+            remove: 'Supprimer',
+            error: 'Désolé, le fichier trop volumineux'
+        }
+    });
+    // Used events
+    var drEvent = $('#input-file-events').dropify();
+    drEvent.on('dropify.beforeClear', function(event, element) {
+        return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+    });
+    drEvent.on('dropify.afterClear', function(event, element) {
+        alert('File deleted');
+    });
+    drEvent.on('dropify.errors', function(event, element) {
+        console.log('Has Errors');
+    });
+    var drDestroy = $('#input-file-to-destroy').dropify();
+    drDestroy = drDestroy.data('dropify')
+    $('#toggleDropify').on('click', function(e) {
+        e.preventDefault();
+        if (drDestroy.isDropified()) {
+            drDestroy.destroy();
+        } else {
+            drDestroy.init();
+        }
+    })
+});
+</script>
+<!-- ===== Style Switcher JS ===== -->
+<script src="/plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
+</body>
+
+</html>

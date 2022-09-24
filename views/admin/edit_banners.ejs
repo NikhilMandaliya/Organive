@@ -1,0 +1,154 @@
+<%-include('../_layouts/admin_header')-%>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-info">
+                    <div class="panel-wrapper collapse in" aria-expanded="true">
+                        <form  method="POST" onsubmit="validate()" action="/admin/banner/edit/<%= banner._id %>" id="addCatForm" enctype="multipart/form-data">
+                            <div class="panel-body">
+                                <div class="form-body">
+                                    <h2 class="page-title m-b-20"> Edit Banner </h2>
+                                    <hr>
+                                    <!-- errors -->
+                                    <% if(typeof alert != 'undefined') { %>
+                                        <div class="w-75 p-3" style="margin: auto;">
+                                            <% alert.forEach(function(error) { %>
+                                                <div class="alert alert-danger alert-dismissible show" role="alert">
+                                                    <%= error.msg %>
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">×</span>
+                                                    </button>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+                                        <hr>
+                                    <% } %>
+                                    <div class="form-group">
+                                        <h3 class="box-title">Upload image</h3>
+                                        <input type="file" id="input-file-now" class="dropify" data-default-file="<%= banner.image%>" name="image"/>
+                                        <div class="txt-s-101 cl6 p-b-10" style="color: red;">
+                                            <span class="cl12" id="catErrFile"></span>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <a href="/admin/banner" class="btn btn-danger" style="color: white;">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const form = document.getElementById('addCatForm');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+    })
+    function validate(){
+        let returnVal = true;
+
+        const filevalue = document.getElementById('input-file-now').value;
+        const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
+
+        if (ext=='png' || ext=='jpeg' || ext=='jpg') {
+            removeError('catErrFile')
+        } else {
+            setError('catErrFile','Wrong file type!')
+            returnVal = false;
+        }
+        
+        if (returnVal) {
+            form.submit();
+        }
+    }
+
+    function setError(id, error) {
+        // set error msg
+        const element = document.getElementById(id);
+        element.innerHTML = '* ' + error;
+    }
+    function removeError(id) {
+        // remove error msg
+        const element = document.getElementById(id);
+        element.innerHTML = '';
+    }
+</script>
+<footer class="footer t-a-c">
+    © <%= new Date().getFullYear() %> Organive. All rights reserved.
+</footer>
+</div>
+<!-- ===== Page-Content-End ===== -->
+</div>
+<!-- ===== Main-Wrapper-End ===== -->
+<!-- ==============================
+Required JS Files
+=============================== -->
+<!-- ===== jQuery ===== -->
+<script src="/plugins/components/jquery/dist/jquery.min.js"></script>
+<!-- ===== Bootstrap JavaScript ===== -->
+<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- ===== Slimscroll JavaScript ===== -->
+<script src="/js/jquery.slimscroll.js"></script>
+<!-- ===== Wave Effects JavaScript ===== -->
+<script src="/js/waves.js"></script>
+<!-- ===== Menu Plugin JavaScript ===== -->
+<script src="/js/sidebarmenu.js"></script>
+<!-- ===== Custom JavaScript ===== -->
+<script src="/js/custom.js"></script>
+<!-- ===== ckeditor JavaScript ===== -->
+<script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+<script src="/js/ckeditor.js"></script>
+<!-- ===== Plugin JS ===== -->
+<script src="/plugins/components/chartist-js/dist/chartist.min.js"></script>
+<script src="/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+<script src='/plugins/components/moment/moment.js'></script>
+<script src='/plugins/components/fullcalendar/fullcalendar.js'></script>
+<script src="/js/db2.js"></script>
+<!-- jQuery file upload -->
+<script src="/plugins/components/dropify/dist/js/dropify.min.js"></script>
+<script>
+$(function() {
+    // Basic
+    $('.dropify').dropify();
+    // Translated
+    $('.dropify-fr').dropify({
+        messages: {
+            default: 'Glissez-déposez un fichier ici ou cliquez',
+            replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+            remove: 'Supprimer',
+            error: 'Désolé, le fichier trop volumineux'
+        }
+    });
+    // Used events
+    var drEvent = $('#input-file-events').dropify();
+    drEvent.on('dropify.beforeClear', function(event, element) {
+        return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+    });
+    drEvent.on('dropify.afterClear', function(event, element) {
+        alert('File deleted');
+    });
+    drEvent.on('dropify.errors', function(event, element) {
+        console.log('Has Errors');
+    });
+    var drDestroy = $('#input-file-to-destroy').dropify();
+    drDestroy = drDestroy.data('dropify')
+    $('#toggleDropify').on('click', function(e) {
+        e.preventDefault();
+        if (drDestroy.isDropified()) {
+            drDestroy.destroy();
+        } else {
+            drDestroy.init();
+        }
+    })
+});
+</script>
+<!-- ===== Style Switcher JS ===== -->
+<script src="/plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
+</body>
+
+</html>
