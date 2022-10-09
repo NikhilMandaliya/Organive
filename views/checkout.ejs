@@ -718,7 +718,7 @@
 	<script>
 		function razor() {
 			axios.post('/order/razor').then((info) => {
-				console.log(info);
+				// console.log(info);
 				if (info.data.status == 'fail') {
 					window.location = '/cart';
 				} else {
@@ -741,7 +741,7 @@
 			})
 		}
 
-		var stripe = Stripe('pk_test_51KmAsMSFDsxAPQcWMDhzB1a3zmOOzyvfhDMLkgImwlAc4Xh5Kt1UsAVXzuEKQBqR0TBMUQsT71P8s5bQADThQFT700gLx3982p');
+		var stripe = Stripe('pk_test_51LqxWZSIP5LbGmwbUpnZ8E3LtYPvWLL7wOMshqJ589jGdnp29tYyWePEHHLOlmgQFErsBYfnxgSmtm6xSnjnxD7h001JbNhZDe');
 		var elements = stripe.elements();
 		var style = {
 			base: {
