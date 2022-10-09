@@ -181,8 +181,8 @@
 										<div class="txt-s-101 cl6 p-b-10">
 											<span class="cl12" id="landmarkErr"></span>
 										</div>
-										<input type="hidden" name="lat" id="loc_lat" value="<%= user.address.coords.lat %>" />
-										<input type="hidden" name="lng" id="loc_long" value="<%= user.address.coords.lng %>" />
+										<input type="hidden" name="lat" id="loc_lat" value="<%= user.address.coords.lat || '23.0149711' %>" />
+										<input type="hidden" name="lng" id="loc_long" value="<%= user.address.coords.lng || '72.5770026' %>" />
 									</div>
 								</div>
 								<div class="col-sm-6 p-b-23">
@@ -288,7 +288,7 @@
 								<div class="flex-w flex-m bo-b-1 bocl15 p-rl-20 p-tb-16">
 									<input class="m-r-15" id="radio1" type="radio" name="pay" value="cod" checked="checked">
 									<label class="txt-m-103 cl6" for="radio1">
-										Cash on delivery
+										Cash On Delivery
 									</label>
 								</div>
 
@@ -302,7 +302,7 @@
 								<div class="flex-w flex-m bocl15 p-rl-20 p-t-16 p-b-16">
 									<input class="m-r-15" id="radio3" type="radio" name="pay" value="stripe">
 									<label class="txt-m-103 cl6" for="radio3">
-										Pay with Stripe
+										Pay With Stripe
 									</label>
 								</div>
 								<div id="card-element">
@@ -723,10 +723,10 @@
 					window.location = '/cart';
 				} else {
 					var options = {
-						"key": "rzp_test_NMyPMTlTRVnLis",
+						"key": "rzp_test_aiN0FV83wc3jPn",
 						// "amount": "50000",
 						"currency": "INR",
-						"name": "Grocery",
+						"name": "Organive",
 						"description": "Test Transaction",
 						"image": "/images/icons/favicon.png",
 						"order_id": info.data.id,

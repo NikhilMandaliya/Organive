@@ -85,25 +85,30 @@ router.post('/', checkUserAndStore, async (req, res) => {
 // razor
 // GET order razor
 router.post('/razor', checkUserAndStore, async (req, res) => {
-    const user = req.user;
-    const size = Object.keys(user.address).length;
-    if (size < 4 || Object.values(user.address).includes(undefined)) {
-        return res.send({ status: 'fail', msg: 'Address is required!' });
+    try {
+        const user = req.user;
+        const size = Object.keys(user.address).length;
+        if (size < 4 || Object.values(user.address).includes(undefined)) {
+            return res.send({ status: 'fail', msg: 'Address is required!' });
+        }
+        const cart = await Cart.findOne({ userId: req.user.id, vendorId: req.store });
+        if (cart.products.length == 0) {
+            req.flash('success', "Cart is empty can not checkout.")
+            return res.json({ status: 'fail' });
+        }
+        const discount = cart.discount ? cart.discount : 0;
+        const total = (cart.total + parseFloat(req.deliverycharge) - discount).toFixed(2);
+        let options = {
+            amount: total * 100,
+            currency: "INR",
+        };
+        razorpay.orders.create(options, function (err, order) {
+            res.json(order)
+        })
+    } catch (error) {
+        console.log(error);
+        res.send(error.message);
     }
-    const cart = await Cart.findOne({ userId: req.user.id, vendorId: req.store });
-    if (cart.products.length == 0) {
-        req.flash('success', "Cart is empty can not checkout.")
-        return res.json({ status: 'fail' });
-    }
-    const discount = cart.discount ? cart.discount : 0;
-    const total = (cart.total + parseFloat(req.deliverycharge) - discount).toFixed(2);
-    let options = {
-        amount: total * 100,
-        currency: "INR",
-    };
-    razorpay.orders.create(options, function (err, order) {
-        res.json(order)
-    })
 })
 
 // POST is complete
